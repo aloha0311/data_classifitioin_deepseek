@@ -1,0 +1,16 @@
+﻿RowNumber,CustomerId,Surname,CreditScore,Geography,Gender,Age,Tenure,Balance,NumOfProducts,HasCrCard,IsActiveMember,EstimatedSalary,Exited
+6253,15687492,Anderson,596,Germany,Male,32,3,96709.07,2,0,0,41788.37,0
+4685,15736963,Herring,623,France,Male,43,1,0.0,2,1,1,146379.3,0
+1732,15721730,Amechi,601,Spain,Female,44,4,0.0,2,1,0,58561.31,0
+4743,15762134,Liang,506,Germany,Male,59,8,119152.1,2,1,1,170679.74,0
+4522,15648898,Chuang,560,Spain,Female,27,7,124995.98,1,1,1,114669.79,0
+6341,15659064,Salas,790,Spain,Male,37,8,0.0,2,1,1,149418.41,0
+577,15761986,Obialo,439,Spain,Female,32,3,138901.61,1,1,0,75685.97,0
+5203,15713354,Morrice,597,Germany,Female,22,6,101528.61,1,1,0,70529.0,1
+6364,15593454,Lambert,678,Spain,Female,40,4,113794.22,1,1,0,16618.76,0
+440,15690134,Hughes,464,Germany,Female,42,3,85679.25,1,1,1,164104.74,0
+2751,15767474,Lorenzo,481,France,Female,57,9,0.0,3,1,1,169719.35,1
+7488,15785367,McGuffog,651,France,Female,56,4,0.0,1,0,0,84383.22,1
+5273,15587507,Feng,850,France,Male,47,6,0.0,1,1,0,187391.02,1
+5654,15569764,Garner,687,Germany,Female,41,2,154007.21,1,1,0,158408.23,0
+4000,15665062,Lucchese,696,France,Male,19,1,110928.51,1,1,1,2766.63,0

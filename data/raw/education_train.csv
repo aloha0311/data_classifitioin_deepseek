@@ -1,0 +1,65 @@
+﻿课程id,课程类别,课程时长,课程章节数,报名人数,完课率,课程发布平台数量,课程价格,课程评价,考试平均得分,industry
+595,Finance,52,117,4255,96.91,2,83,4.1,80,education
+471,AI,69,36,2384,85.03,3,106,4.1,73,education
+297,Data Science,96,98,3956,80.98,4,154,1.8,44,education
+930,Technology,68,107,3057,75.64,3,114,3.9,41,education
+911,Programming,96,9,3453,85.92,2,197,1.9,44,education
+373,Marketing,100,120,2772,70.19,3,150,4.3,59,education
+560,Design,60,122,3241,89.34,3,84,2.3,93,education
+498,Business,75,107,2621,70.01,1,134,4.5,74,education
+592,Finance,42,51,3475,84.52,4,51,2.6,81,education
+228,Technology,80,77,2689,87.02,3,132,3.7,82,education
+163,Office Tools,92,107,2836,73.31,3,182,4.1,93,education
+783,Design,71,122,3096,79.34,1,115,2.7,46,education
+476,AI,98,54,2407,75.15,2,153,4.5,88,education
+821,Finance,43,89,4838,94.13,1,85,1.5,65,education
+905,Programming,72,63,4633,97.41,3,102,2.9,45,education
+886,Programming,97,10,2265,75.92,1,142,4.5,41,education
+757,Data Science,87,149,3122,81.36,1,200,2.8,56,education
+445,Programming,78,117,3030,94.02,2,116,4.0,82,education
+32,Business,77,110,2358,84.22,1,118,1.1,57,education
+790,Design,97,63,4738,86.06,2,121,2.5,48,education
+251,AI,80,88,3375,79.42,3,127,4.8,71,education
+883,Programming,59,8,2592,72.1,4,73,3.2,74,education
+293,Data Science,80,47,2635,70.37,2,112,2.0,51,education
+654,Programming,71,91,3329,81.58,3,107,5.0,71,education
+723,Business,82,118,3885,80.28,2,186,1.2,66,education
+401,Office Tools,85,113,3168,85.66,2,149,3.7,80,education
+863,Office Tools,80,41,2102,89.25,1,127,3.1,41,education
+375,Marketing,96,120,3517,85.69,2,192,3.3,65,education
+56,Data Science,49,82,2551,83.25,1,54,4.5,71,education
+914,Technology,99,135,2761,76.86,1,135,3.2,44,education
+787,Design,88,130,3654,80.96,1,162,1.2,45,education
+784,Design,74,129,3599,87.28,4,118,1.5,89,education
+513,Business,80,7,3393,84.41,3,117,4.5,62,education
+559,Design,87,118,3908,85.11,4,192,2.5,65,education
+584,Finance,89,144,3096,87.84,4,191,1.4,74,education
+648,Office Tools,70,70,4599,88.58,2,132,4.7,47,education
+271,Business,47,41,2833,78.44,3,53,2.0,87,education
+472,AI,85,114,2523,84.99,2,141,1.1,62,education
+327,Design,56,69,4891,96.42,2,54,3.2,76,education
+185,Office Tools,45,111,3373,85.96,1,96,2.3,70,education
+588,Finance,96,123,3107,88.02,4,163,2.4,68,education
+748,Data Science,71,34,2144,74.39,3,117,2.9,44,education
+152,Marketing,84,147,4820,97.72,4,150,4.2,63,education
+519,Business,94,15,3546,86.53,2,190,4.5,49,education
+425,Programming,41,72,2582,86.26,2,92,4.1,76,education
+937,Technology,80,71,3595,90.48,3,133,2.4,86,education
+797,Design,90,15,3360,90.29,1,187,1.7,67,education
+823,Finance,94,59,4020,90.6,2,163,3.0,75,education
+388,Marketing,99,68,3637,80.96,4,120,4.1,53,education
+786,Design,88,84,3524,82.23,3,179,3.1,73,education
+549,Design,84,120,2966,75.34,2,170,5.0,71,education
+70,Data Science,98,64,4177,76.52,2,162,3.3,45,education
+112,Finance,64,79,2606,77.57,2,131,3.7,56,education
+581,Finance,98,14,3946,85.09,1,157,4.0,88,education
+545,Design,48,21,2802,71.51,4,89,2.7,50,education
+309,Data Science,79,146,3071,91.86,4,105,2.1,83,education
+454,Technology,72,115,3241,71.1,2,139,1.3,82,education
+460,Technology,45,146,3032,70.54,3,92,2.6,64,education
+532,Data Science,52,58,3243,72.83,1,94,4.9,74,education
+926,Technology,65,6,3366,74.5,4,112,4.9,53,education
+859,Marketing,86,144,3130,96.15,2,179,4.5,66,education
+552,Design,85,143,2691,77.77,1,168,4.5,44,education
+909,Programming,47,132,3549,98.34,4,94,3.0,42,education
+791,Design,89,112,3124,89.62,4,185,3.5,89,education

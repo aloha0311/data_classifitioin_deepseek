@@ -1,0 +1,16 @@
+﻿id,name,date,manner_of_death,armed,age,gender,race,city,state,signs_of_mental_illness,threat_level,flee,body_camera
+376,Erik Tellez,2015-04-18,shot,gun,43.0,M,H,Phoenix,AZ,True,attack,Not fleeing,False
+5605,Christopher Palmer,2020-03-04,shot,unarmed,37.0,M,W,Manila,AR,False,attack,Not fleeing,False
+5301,Mark Stoddard,2019-12-21,shot,gun,40.0,M,W,Emery County,UT,False,attack,Car,False
+3457,Michael McEntee,2018-03-03,shot,gun,70.0,M,,Johnson County,MO,False,attack,Not fleeing,False
+1225,Michael Brown,2016-01-31,shot and Tasered,unarmed,25.0,M,W,Saginaw,TX,False,attack,Not fleeing,False
+1637,Antwun Shumpert,2016-06-18,shot,unarmed,37.0,M,B,Tupelo,MS,False,attack,Foot,False
+3211,TK TK,2017-12-13,shot,unknown weapon,,M,,Hamilton,AL,False,other,Not fleeing,False
+398,Kimber Key,2015-04-21,shot,knife,59.0,M,W,Irmo,SC,True,other,Not fleeing,False
+2907,Ricky Ard,2017-08-29,shot,baseball bat,55.0,M,B,Evansville,IN,True,other,Not fleeing,True
+1727,Bernard Wells,2016-07-23,shot,gun,31.0,M,B,Chino,CA,False,attack,Foot,False
+3405,Ronnell Foster,2018-02-13,shot,unarmed,33.0,M,B,Vallejo,CA,False,attack,Foot,False
+4044,Paul Askins,2018-08-31,shot,gun,61.0,M,W,Sedalia,CO,False,attack,Not fleeing,True
+5181,Justin Anderson,2019-11-12,shot,gun,39.0,M,W,Oklahoma City,OK,False,attack,,False
+1245,Shalamar Longer,2016-02-08,shot,gun,33.0,M,B,Chester,PA,False,attack,Car,False
+1906,Thomas Tucker,2016-09-20,shot,gun,49.0,M,W,Westminster,CO,False,other,Foot,False

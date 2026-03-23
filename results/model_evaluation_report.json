@@ -1,0 +1,45 @@
+{
+  "evaluation_date": "2026-03-22",
+  "model_type": "DeepSeek-LLM-7B-Chat + LoRA",
+  "lora_config": {
+    "r": 16,
+    "lora_alpha": 32,
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"],
+    "lora_dropout": 0.1
+  },
+  "training_config": {
+    "num_train_epochs": 10,
+    "learning_rate": 0.0002,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 4,
+    "final_loss": 0.055
+  },
+  "dataset": {
+    "train_samples": 280,
+    "val_samples": 52
+  },
+  "metrics": {
+    "accuracy": 0.8269,
+    "precision_macro": 0.8154,
+    "recall_macro": 0.7957,
+    "f1_macro": 0.7844,
+    "precision_weighted": 0.8910,
+    "recall_weighted": 0.8269,
+    "f1_weighted": 0.8491
+  },
+  "error_analysis": {
+    "total_errors": 9,
+    "total_samples": 52,
+    "error_rate": 0.1731,
+    "common_errors": [
+      "状态类/时间标记 -> 度量类/时间度量 (2次)",
+      "属性类/类别标签 -> 结构类/标准代码 (1次)",
+      "属性类/地址位置 -> 属性类/类别标签 (1次)",
+      "属性类/描述文本 -> 空 (1次)",
+      "属性类/名称标题 -> 结构类/标准代码 (1次)",
+      "度量类/计量数值 -> 属性类/地址位置 (1次)",
+      "属性类/描述文本 -> 度量类/比率比例 (1次)",
+      "度量类/计数统计 -> 度量类/计量数值 (1次)"
+    ]
+  }
+}

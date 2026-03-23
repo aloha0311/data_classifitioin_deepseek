@@ -1,0 +1,194 @@
+{
+  "version": "1.0",
+  "description": "数据字段分类标签体系 - 24类分类标签",
+  "hierarchy": {
+    "结构标识类": {
+      "description": "用于标识和编码的数据字段",
+      "subcategories": {
+        "ID类/主键ID": {
+          "description": "唯一标识记录的主键或ID字段",
+          "examples": ["customer_id", "user_id", "order_id", "id"],
+          "sensitivity_default": "第1级/公开"
+        },
+        "结构类/分类代码": {
+          "description": "用于分类标识的编码字段",
+          "examples": ["category_code", "type_code", "class_code", "分类代码"],
+          "sensitivity_default": "第1级/公开"
+        },
+        "结构类/产品代码": {
+          "description": "产品或商品相关的编码字段",
+          "examples": ["product_code", "item_code", "sku", "产品代码"],
+          "sensitivity_default": "第1级/公开"
+        },
+        "结构类/企业代码": {
+          "description": "企业或组织相关的编码字段",
+          "examples": ["org_code", "company_code", "dept_id", "企业代码"],
+          "sensitivity_default": "第1级/公开"
+        },
+        "结构类/标准代码": {
+          "description": "遵循标准的代码字段",
+          "examples": ["country_code", "currency_code", "industry_code", "标准代码"],
+          "sensitivity_default": "第1级/公开"
+        }
+      }
+    },
+    "属性描述类": {
+      "description": "描述实体属性的文本字段",
+      "subcategories": {
+        "属性类/名称标题": {
+          "description": "实体名称或标题字段",
+          "examples": ["name", "title", "username", "product_name", "名称", "标题"],
+          "sensitivity_default": "第1级/公开"
+        },
+        "属性类/类别标签": {
+          "description": "分类或标签信息字段",
+          "examples": ["category", "tag", "label", "type", "level", "类别"],
+          "sensitivity_default": "第1级/公开"
+        },
+        "属性类/描述文本": {
+          "description": "详细描述内容字段",
+          "examples": ["description", "remark", "note", "content", "描述", "说明"],
+          "sensitivity_default": "第2级/内部"
+        },
+        "属性类/技能标签": {
+          "description": "技能或能力标识字段",
+          "examples": ["skill", "ability", "expertise", "competency", "技能"],
+          "sensitivity_default": "第2级/内部"
+        },
+        "属性类/地址位置": {
+          "description": "地理位置信息字段",
+          "examples": ["address", "location", "city", "region", "country", "地址", "位置"],
+          "sensitivity_default": "第2级/内部"
+        }
+      }
+    },
+    "数值度量类": {
+      "description": "包含数值测量的数据字段",
+      "subcategories": {
+        "度量类/计量数值": {
+          "description": "连续或离散数值测量字段",
+          "examples": ["amount", "price", "salary", "age", "weight", "金额", "价格", "薪"],
+          "sensitivity_default": "第2级/内部"
+        },
+        "度量类/计数统计": {
+          "description": "数量统计类数值字段",
+          "examples": ["count", "number", "total", "sum", "quantity", "人数", "次数"],
+          "sensitivity_default": "第2级/内部"
+        },
+        "度量类/比率比例": {
+          "description": "百分比或比率字段",
+          "examples": ["rate", "ratio", "percentage", "proportion", "率"],
+          "sensitivity_default": "第2级/内部"
+        },
+        "度量类/时间度量": {
+          "description": "时间相关的数值字段",
+          "examples": ["duration", "interval", "hours", "minutes", "时长", "间隔"],
+          "sensitivity_default": "第2级/内部"
+        },
+        "度量类/序号排序": {
+          "description": "顺序编号字段",
+          "examples": ["seq", "index", "rank", "order", "position", "序号"],
+          "sensitivity_default": "第1级/公开"
+        }
+      }
+    },
+    "身份特征类": {
+      "description": "与个人身份相关的特征字段",
+      "subcategories": {
+        "身份类/人口统计": {
+          "description": "人口统计学特征字段",
+          "examples": ["gender", "birthday", "birthday_year", "education", "age", "婚姻"],
+          "sensitivity_default": "第3级/敏感"
+        },
+        "身份类/联系方式": {
+          "description": "联系方式信息字段",
+          "examples": ["phone", "email", "mobile", "wechat", "电话", "邮箱", "手机"],
+          "sensitivity_default": "第4级/机密"
+        },
+        "身份类/教育背景": {
+          "description": "教育相关信息字段",
+          "examples": ["education", "school", "major", "degree", "学历", "学校"],
+          "sensitivity_default": "第3级/敏感"
+        },
+        "身份类/职业信息": {
+          "description": "职业相关特征字段",
+          "examples": ["job", "occupation", "position", "title", "department", "职业"],
+          "sensitivity_default": "第3级/敏感"
+        }
+      }
+    },
+    "状态标记类": {
+      "description": "表示状态或标记的字段",
+      "subcategories": {
+        "状态类/二元标志": {
+          "description": "二值状态标识字段",
+          "examples": ["flag", "is_deleted", "is_active", "status_bool", "是否"],
+          "sensitivity_default": "第2级/内部"
+        },
+        "状态类/状态枚举": {
+          "description": "多状态枚举值字段",
+          "examples": ["status", "state", "stage", "phase", "结果"],
+          "sensitivity_default": "第2级/内部"
+        },
+        "状态类/时间标记": {
+          "description": "时间点或时间戳字段",
+          "examples": ["create_time", "update_time", "date", "timestamp", "日期", "时间"],
+          "sensitivity_default": "第2级/内部"
+        }
+      }
+    },
+    "扩展数据类": {
+      "description": "扩展或未分类的数据字段",
+      "subcategories": {
+        "扩展类/扩展代码": {
+          "description": "自定义扩展编码字段",
+          "examples": ["ext_code", "custom_field", "extra", "扩展"],
+          "sensitivity_default": "第2级/内部"
+        },
+        "扩展类/其他字段": {
+          "description": "其他未分类字段",
+          "examples": ["other", "misc", "reserved", "备用字段"],
+          "sensitivity_default": "第1级/公开"
+        }
+      }
+    }
+  },
+  "flattened_labels": [
+    "ID类/主键ID",
+    "结构类/分类代码",
+    "结构类/产品代码",
+    "结构类/企业代码",
+    "结构类/标准代码",
+    "属性类/名称标题",
+    "属性类/类别标签",
+    "属性类/描述文本",
+    "属性类/技能标签",
+    "属性类/地址位置",
+    "度量类/计量数值",
+    "度量类/计数统计",
+    "度量类/比率比例",
+    "度量类/时间度量",
+    "度量类/序号排序",
+    "身份类/人口统计",
+    "身份类/联系方式",
+    "身份类/教育背景",
+    "身份类/职业信息",
+    "状态类/二元标志",
+    "状态类/状态枚举",
+    "状态类/时间标记",
+    "扩展类/扩展代码",
+    "扩展类/其他字段"
+  ],
+  "stats": {
+    "total_categories": 6,
+    "total_subcategories": 24,
+    "category_summary": {
+      "结构标识类": 5,
+      "属性描述类": 5,
+      "数值度量类": 5,
+      "身份特征类": 4,
+      "状态标记类": 3,
+      "扩展数据类": 2
+    }
+  }
+}
