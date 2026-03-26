@@ -14,6 +14,12 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from models.tokenizer_fix import get_chinese_tokenizer
 from transformers import AutoModelForCausalLM
 from peft import PeftModel
+from scripts.grading_rules import (
+    get_classification_labels,
+    get_grading_labels,
+    infer_grading,
+    load_grading_rules
+)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_DIR = os.path.join(BASE_DIR, "models/deepseek-llm-7b-chat")
@@ -23,16 +29,9 @@ RESULTS_DIR = os.path.join(BASE_DIR, "results/csv_predict")
 
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
-CLASSIFICATION_LABELS = [
-    "ID类/主键ID", "结构类/分类代码", "结构类/产品代码", "结构类/企业代码", "结构类/标准代码",
-    "属性类/名称标题", "属性类/类别标签", "属性类/描述文本", "属性类/技能标签", "属性类/地址位置",
-    "度量类/计量数值", "度量类/计数统计", "度量类/比率比例", "度量类/时间度量", "度量类/序号排序",
-    "身份类/人口统计", "身份类/联系方式", "身份类/教育背景", "身份类/职业信息",
-    "状态类/二元标志", "状态类/状态枚举", "状态类/时间标记",
-    "扩展类/扩展代码", "扩展类/其他字段"
-]
-
-GRADING_LABELS = ["第1级/公开", "第2级/内部", "第3级/敏感", "第4级/机密"]
+# 从配置加载标签
+CLASSIFICATION_LABELS = get_classification_labels()
+GRADING_LABELS = get_grading_labels()
 
 INDUSTRY_KEYWORDS = {
     'medical': ['patient', 'diagnos', 'disease', 'hospital', 'clinic', 'breast', 'cancer', 'diabetes'],
@@ -169,33 +168,10 @@ def predict_classification(model, tokenizer, industry, column_name, samples):
 
 
 def predict_grading(model, tokenizer, industry, column_name, samples, classification):
-    """预测分级"""
-    labels_text = '\n'.join([f"- {label}" for label in GRADING_LABELS])
-    prompt = f"""行业：{industry}
-字段名：{column_name}
-样本值示例：{samples}
-分类结果：{classification}
-
-请从以下分级标签中选择最合适的一个（只输出标签）：
-{labels_text}
-
-答案："""
-    
-    messages = [{"role": "user", "content": prompt}]
-    encoded = tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt")
-    input_ids = encoded["input_ids"].to(model.device)
-    
-    with torch.no_grad():
-        outputs = model.generate(
-            input_ids,
-            max_new_tokens=15,
-            do_sample=False,
-            pad_token_id=tokenizer.pad_token_id,
-            eos_token_id=tokenizer.eos_token_id,
-        )
-    
-    response = tokenizer.decode(outputs[0][len(input_ids[0]):], skip_special_tokens=True)
-    return extract_label(response, GRADING_LABELS)
+    """预测分级 - 基于分类映射，不依赖模型直接预测"""
+    # 使用 grading_rules 模块的 infer_grading 函数
+    grading = infer_grading(classification, column_name, samples)
+    return grading
 
 
 def process_file(filepath, model, tokenizer):

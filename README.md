@@ -1,55 +1,42 @@
-# 基于大语言模型的数据字段自动分类分级系统
+# DeepSeek 数据分类分级系统
 
-## 本项目不包括模型本身，可以通过models/add.py将deepseek-llm-7b-chat下载到models文件夹下
-
-## 项目概述
-
-本项目使用 `DeepSeek-LLM-7B-Chat` 大语言模型，通过 LoRA 微调技术，实现对任意数据集字段的自动分类和分级功能。
-
-### 核心能力
-
-- **24类字段分类**：根据字段名和样本值，自动识别字段属于24种分类标签之一
-- **4级敏感分级**：评估字段的安全等级（公开/内部/敏感/机密）
-- **多行业覆盖**：支持金融、医疗、教育、商业、工业等10+行业场景
-- **批量预测**：支持批量处理 CSV/Excel 文件，快速获取全字段分类分级结果
-
----
+基于 DeepSeek-7B 大语言模型的数据自动化分类分级系统，支持字段级分类分级推理。
 
 ## 项目结构
 
 ```
 deepseek_project/
-├── data/                         # 数据目录
-│   ├── labels/                   # 分类分级标准
-│   │   ├── classification_schema.json   # 24类分类标签定义
-│   │   └── grading_schema.json          # 4级分级标准定义
-│   ├── raw/                      # 原始训练数据
-│   ├── test/                     # 测试数据
-│   ├── new/                      # 待预测的新数据（CSV/Excel）
-│   ├── sft/                      # SFT训练数据
-│   │   ├── train.jsonl          # 训练集
-│   │   └── val.jsonl            # 验证集
-│   └── processed/               # 中间处理文件
-├── scripts/                      # 核心脚本
-│   ├── batch_convert_datasets.py     # 批量转换数据集为训练格式
-│   ├── train_model.py               # LoRA模型微调训练
-│   ├── evaluate_model.py            # 模型评估
-│   ├── predict_new_data.py          # 批量预测新数据
-│   ├── dynamic_knowledge_base.py    # 动态知识库模块
-│   ├── self_supervised_pretraining.py  # 自监督预训练
-│   ├── statistical_feature_extractor.py # 统计特征提取
-│   ├── test_lora.py                 # LoRA权重测试
-│   └── test_tokenizer_cn.py        # 中文分词器测试
-├── models/                         # 模型目录
-│   └── deepseek-llm-7b-chat/       # 基础模型
-│       └── tokenizer_fix.py        # 中文tokenizer修复
-├── outputs/                        # 训练输出
-│   └── finetuned/                  # 微调后的LoRA权重
-├── results/                       # 预测结果
-│   ├── model_evaluation_report.json  # 评估报告
-│   ├── predictions.json             # 预测结果JSON
-│   └── csv_predict/                 # CSV格式预测结果
-└── docs/                          # 文档目录
+├── docs/                    # 项目文档
+│   ├── 项目过程文档.md       # 开发过程文档
+│   ├── 算法文档.md          # 算法原理说明
+│   └── 标注规范文档.md       # 数据标注规范
+├── scripts/                 # 核心脚本
+│   ├── train_model.py       # 模型训练脚本
+│   ├── evaluate_model.py    # 模型评估脚本
+│   ├── predict_new_data.py  # 新数据预测脚本
+│   ├── compare_models.py    # 模型对比评估脚本
+│   ├── enhanced_feature_extractor.py  # 增强特征提取
+│   ├── enhanced_knowledge_base.py     # 增强知识库
+│   ├── api_server.py        # FastAPI推理服务
+│   └── split_dataset.py     # 数据集划分脚本
+├── models/                  # 模型文件
+│   ├── deepseek-llm-7b-chat/
+│   └── tokenizer_fix.py     # 分词器修复
+├── data/                    # 数据目录
+│   ├── sft/                 # SFT训练数据
+│   ├── raw/                 # 原始数据
+│   ├── labels/              # 标签定义
+│   └── knowledge_base.json  # 知识库
+├── outputs/                 # 输出目录
+│   └── finetuned/           # 微调模型输出
+├── results/                 # 评估结果
+├── frontend/                # 前端项目
+│   ├── src/
+│   │   ├── views/           # 页面组件
+│   │   ├── router/          # 路由配置
+│   │   └── api/             # API接口
+│   └── package.json
+└── docker-compose.yml       # Docker部署配置
 ```
 
 ---
@@ -101,226 +88,202 @@ deepseek_project/
 ### 1. 环境准备
 
 ```bash
-# 安装依赖
-pip install torch transformers peft bitsandbytes pandas scikit-learn openpyxl
+# 安装Python依赖
+pip install -r requirements.txt
 
-# 验证GPU可用
-python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}')"
+# 安装Node.js依赖 (前端)
+cd frontend && npm install
 ```
 
-### 2. 批量预测（新数据分类分级）
+### 2. 模型准备
 
-将待预测的数据文件（CSV或Excel）放入 `data/new/` 目录：
+下载 DeepSeek-7B-Chat 模型到 `models/deepseek-llm-7b-chat` 目录。
+
+### 3. 启动API服务
 
 ```bash
-cd deepseek_project
-python scripts/predict_new_data.py
+# 方式一：直接运行
+python scripts/api_server.py --port 8001
+
+# 方式二：使用Docker
+docker-compose up api
 ```
 
-交互示例：
-
-```
-============================================================
-可用文件列表：
-============================================================
-  1. medical_data.csv
-  2. student_scores.csv
-  3. financial_data.xlsx
-
-请输入要处理的文件编号（支持多选，用逗号分隔，如: 1,3,5）：
-输入 'a' 处理所有文件，输入 'q' 退出：
-> 1,2
-
-加载模型...
-加载LoRA权重...
-
-处理: medical_data.csv
-  行业: medical, 字段数: 12
-  patient_id: ID类/主键ID / 第1级/公开
-  age: 身份类/人口统计 / 第3级/敏感
-  diagnosis: 属性类/描述文本 / 第3级/敏感
-  ...
-
-处理: student_scores.csv
-  行业: education, 字段数: 8
-  student_id: ID类/主键ID / 第1级/公开
-  name: 属性类/名称标题 / 第2级/内部
-  ...
-```
-
-预测结果保存至 `results/csv_predict/` 目录，格式如下：
-
-```csv
-字段名,分类,分级
-patient_id,ID类/主键ID,第1级/公开
-age,身份类/人口统计,第3级/敏感
-```
-
-### 3. 模型评估
+### 4. 启动前端
 
 ```bash
-# 评估LoRA微调模型
-python scripts/evaluate_model.py --lora
-
-# 评估基础模型
-python scripts/evaluate_model.py
+cd frontend
+npm run dev
 ```
 
-### 4. 重新训练模型（如需）
+访问 http://localhost:3000 即可使用系统。
+
+## 核心功能
+
+### 模型对比评估
 
 ```bash
-# 步骤1：准备训练数据
-python scripts/batch_convert_datasets.py
-
-# 步骤2：训练模型
-python scripts/train_model.py
+python scripts/compare_models.py
 ```
 
----
+该脚本将评估基础模型和微调模型的性能差异，生成详细的对比报告。
 
-## 完整工作流程
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                     数据准备阶段                              │
-├─────────────────────────────────────────────────────────────┤
-│  1. 将CSV文件放入 data/raw/                                │
-│  2. python scripts/batch_convert_datasets.py                │
-│     ↓                                                       │
-│  3. 生成 data/sft/train.jsonl 和 val.jsonl                 │
-└─────────────────────────────────────────────────────────────┘
-                           ↓
-┌─────────────────────────────────────────────────────────────┐
-│                     模型训练阶段                              │
-├─────────────────────────────────────────────────────────────┤
-│  4. python scripts/train_model.py                          │
-│     ↓                                                       │
-│  5. 生成 outputs/finetuned/ (LoRA权重)                     │
-└─────────────────────────────────────────────────────────────┘
-                           ↓
-┌─────────────────────────────────────────────────────────────┐
-│                     模型评估阶段                              │
-├─────────────────────────────────────────────────────────────┤
-│  6. python scripts/evaluate_model.py --lora                │
-│     ↓                                                       │
-│  7. 查看 results/model_evaluation_report.json               │
-└─────────────────────────────────────────────────────────────┘
-                           ↓
-┌─────────────────────────────────────────────────────────────┐
-│                     预测使用阶段                              │
-├─────────────────────────────────────────────────────────────┤
-│  8. 将新数据放入 data/new/                                 │
-│  9. python scripts/predict_new_data.py                    │
-│     ↓                                                       │
-│ 10. 查看 results/csv_predict/ 下的结果文件                  │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 训练数据统计
-
-| 数据集 | 数量 |
-|--------|------|
-| 训练集 | 420条 |
-| 验证集 | 46条 |
-| 行业覆盖 | 10+ 个 |
-
-### 标签分布（Top 10）
-
-```
-度量类/计量数值: 142
-状态类/状态枚举: 61
-度量类/比率比例: 54
-属性类/地址位置: 34
-状态类/时间标记: 32
-属性类/类别标签: 19
-身份类/人口统计: 12
-度量类/计数统计: 12
-ID类/主键ID: 11
-属性类/名称标题: 10
-```
-
----
-
-## 模型性能
-
-当前模型在验证集上的表现：
-
-| 指标 | 数值 |
-|------|------|
-| 准确率 (Accuracy) | 82.69% |
-| 精确率 (Macro) | 81.54% |
-| 召回率 (Macro) | 79.57% |
-| F1分数 (Macro) | 78.44% |
-| F1分数 (Weighted) | 84.91% |
-
-### 常见错误类型
-
-| 预期分类 | 预测分类 | 原因 |
-|----------|----------|------|
-| 状态类/时间标记 | 度量类/时间度量 | 语义相似易混淆 |
-| 属性类/名称标题 | 属性类/描述文本 | 边界模糊 |
-
----
-
-## 辅助模块
-
-### 动态知识库
-
-支持规则动态更新和增量学习：
+### 增强特征提取
 
 ```bash
+python scripts/enhanced_feature_extractor.py data/raw/your_file.csv
+```
+
+提取字段的统计特征和语义特征，为模型提供更丰富的输入信息。
+
+### 知识库管理
+
+```bash
+# 初始化知识库
+python scripts/enhanced_knowledge_base.py --save
+
 # 运行演示
-python scripts/dynamic_knowledge_base.py
-
-# 从预测结果学习新规则
-python scripts/dynamic_knowledge_base.py --learn
-
-# 保存知识库
-python scripts/dynamic_knowledge_base.py --save
+python scripts/enhanced_knowledge_base.py
 ```
 
-### 自监督预训练
+## API接口
 
-增强模型对字段语义的理解：
+### 基础信息
 
-```bash
-# 运行演示
-python scripts/self_supervised_pretraining.py
+- **Base URL**: `http://localhost:8000`
+- **Content-Type**: `application/json`
 
-# 生成预训练数据
-python scripts/self_supervised_pretraining.py --generate
-```
+### 接口列表
 
-### 统计特征提取
-
-为字段提取多维统计特征：
-
-```bash
-python scripts/statistical_feature_extractor.py
-```
-
----
-
-## 项目依赖
-
-| 依赖 | 版本 | 用途 |
+| 方法 | 路径 | 描述 |
 |------|------|------|
-| torch | - | 深度学习框架 |
-| transformers | - | 模型加载 |
-| peft | - | LoRA微调 |
-| pandas | - | 数据处理 |
-| scikit-learn | - | 评估指标 |
-| openpyxl | - | Excel文件支持 |
+| GET | `/` | 服务信息 |
+| GET | `/health` | 健康检查 |
+| GET | `/labels` | 获取分类分级标签 |
+| POST | `/classify` | 单字段分类分级 |
+| POST | `/classify/batch` | 批量分类分级 |
+| POST | `/classify/file` | 上传文件分类分级 |
 
----
+### 调用示例
 
-## 硬件要求
+```bash
+# 单字段分类
+curl -X POST http://localhost:8000/classify \
+  -H "Content-Type: application/json" \
+  -d '{
+    "field_name": "customer_age",
+    "industry": "金融",
+    "samples": ["25", "30", "35", "28", "42"]
+  }'
 
-| 配置 | 要求 |
-|------|------|
-| GPU显存 | ≥16GB（推荐） |
-| 内存 | ≥32GB |
-| 存储 | ≥50GB |
+# 文件分类
+curl -X POST http://localhost:8000/classify/file \
+  -F "file=@data.csv" \
+  -F "industry=金融"
+```
 
+## 分类分级体系
+
+### 分类标签（24类）
+
+| 一级分类 | 二级分类 |
+|----------|----------|
+| ID类 | 主键ID |
+| 结构类 | 分类代码、产品代码、企业代码、标准代码 |
+| 属性类 | 名称标题、类别标签、描述文本、技能标签、地址位置 |
+| 度量类 | 计量数值、计数统计、比率比例、时间度量、序号排序 |
+| 身份类 | 人口统计、联系方式、教育背景、职业信息 |
+| 状态类 | 二元标志、状态枚举、时间标记 |
+| 扩展类 | 扩展代码、其他字段 |
+
+### 分级标签（4级）
+
+| 级别 | 名称 | 说明 |
+|------|------|------|
+| 第1级 | 公开 | 可向公众公开的数据 |
+| 第2级 | 内部 | 仅限内部人员访问 |
+| 第3级 | 敏感 | 涉及个人/敏感信息 |
+| 第4级 | 机密 | 高度敏感的个人信息 |
+
+## 技术栈
+
+### 后端
+- **模型**: DeepSeek-LLM-7B-Chat
+- **微调**: LoRA (PEFT)
+- **框架**: FastAPI + Uvicorn
+- **依赖**: transformers, peft, torch
+
+### 前端
+- **框架**: Vue 3 + Composition API
+- **UI**: Element Plus
+- **图表**: ECharts
+- **构建**: Vite
+
+## 开发指南
+
+### 添加新行业规则
+
+```python
+from scripts.enhanced_knowledge_base import EnhancedKnowledgeBase
+
+kb = EnhancedKnowledgeBase()
+kb.add_rule(
+    field_name="field_name",
+    category="分类标签",
+    grading="分级标签",
+    description="规则描述",
+    industry="行业名称"
+)
+kb.save()
+```
+
+### 自定义特征提取
+
+```python
+from scripts.enhanced_feature_extractor import EnhancedFeatureExtractor
+import pandas as pd
+
+extractor = EnhancedFeatureExtractor()
+df = pd.read_csv("your_data.csv")
+features = extractor.extract_all_features(df)
+
+for col, feat in features.items():
+    print(f"{col}: {feat.data_type}, {feat.semantic_hints}")
+```
+
+## 部署说明
+
+### Docker部署
+
+```bash
+# 启动所有服务
+docker-compose up -d
+
+# 仅启动API服务
+docker-compose up -d api
+
+# 仅启动前端
+docker-compose up -d frontend
+```
+
+### GPU支持
+
+确保Docker配置了NVIDIA Container Toolkit：
+```bash
+docker run --gpus all -p 8000:8000 deepseek-api
+```
+
+## 性能指标
+
+基于当前数据集（420条训练样本，46条验证样本，50条测试样本）：
+
+- **准确率**: 82.69%
+- **F1分数(Macro)**: ~0.78
+- **F1分数(Weighted)**: ~0.82
+- **训练时间**: <2小时
+- **可训练参数**: ~0.1%（LoRA）
+
+
+## 参考标准
+
+- GB/T 43697-2024 《数据安全技术 数据分类分级规则》

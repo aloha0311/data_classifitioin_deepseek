@@ -1,0 +1,86 @@
+/* 科研配色方案 - 低饱和度深蓝色系 */
+:root {
+  /* 主色调 - 深蓝 */
+  --color-primary: #2c5282;
+  --color-primary-light: #4a7ab0;
+  --color-primary-dark: #1a365d;
+  
+  /* 辅助色 - 灰蓝 */
+  --color-secondary: #5a6f7a;
+  --color-secondary-light: #7a8f9a;
+  
+  /* 强调色 - 深青 */
+  --color-accent: #285e61;
+  --color-accent-light: #319795;
+  
+  /* 背景色 */
+  --color-bg-primary: #f0f4f8;
+  --color-bg-secondary: #e2e8f0;
+  --color-bg-card: #ffffff;
+  
+  /* 文字颜色 */
+  --color-text-primary: #2d3748;
+  --color-text-secondary: #718096;
+  --color-text-light: #a0aec0;
+  
+  /* 状态色 - 低饱和度 */
+  --color-success: #68a67d;
+  --color-warning: #c4a35a;
+  --color-danger: #b05a5a;
+  --color-info: #5a8ab0;
+  
+  /* 渐变色 */
+  --gradient-primary: linear-gradient(135deg, #2c5282 0%, #1a365d 100%);
+  --gradient-secondary: linear-gradient(135deg, #4a7ab0 0%, #2c5282 100%);
+  --gradient-accent: linear-gradient(135deg, #319795 0%, #285e61 100%);
+  
+  /* 图表配色 - 低饱和度科研配色 */
+  --chart-1: #5a8ab0;
+  --chart-2: #68a67d;
+  --chart-3: #c4a35a;
+  --chart-4: #b05a5a;
+  --chart-5: #7a6ab0;
+  --chart-6: #5ab0a6;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+input, button, textarea {
+  outline: none;
+}
+
+/* Element Plus 主题覆盖 */
+.el-button--primary {
+  --el-button-bg-color: var(--color-primary);
+  --el-button-border-color: var(--color-primary);
+  --el-button-hover-bg-color: var(--color-primary-light);
+  --el-button-hover-border-color: var(--color-primary-light);
+}
+
+.el-menu--horizontal {
+  --el-menu-bg-color: transparent;
+  --el-menu-text-color: rgba(255, 255, 255, 0.85);
+  --el-menu-hover-bg-color: rgba(255, 255, 255, 0.15);
+  --el-menu-active-color: #ffffff;
+}
