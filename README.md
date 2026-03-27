@@ -6,37 +6,52 @@
 
 ```
 deepseek_project/
-├── docs/                    # 项目文档
-│   ├── 项目过程文档.md       # 开发过程文档
-│   ├── 算法文档.md          # 算法原理说明
-│   └── 标注规范文档.md       # 数据标注规范
-├── scripts/                 # 核心脚本
-│   ├── train_model.py       # 模型训练脚本
-│   ├── evaluate_model.py    # 模型评估脚本
-│   ├── predict_new_data.py  # 新数据预测脚本
-│   ├── compare_models.py    # 模型对比评估脚本
-│   ├── enhanced_feature_extractor.py  # 增强特征提取
-│   ├── enhanced_knowledge_base.py     # 增强知识库
-│   ├── api_server.py        # FastAPI推理服务
-│   └── split_dataset.py     # 数据集划分脚本
-├── models/                  # 模型文件
-│   ├── deepseek-llm-7b-chat/
-│   └── tokenizer_fix.py     # 分词器修复
-├── data/                    # 数据目录
-│   ├── sft/                 # SFT训练数据
-│   ├── raw/                 # 原始数据
-│   ├── labels/              # 标签定义
-│   └── knowledge_base.json  # 知识库
-├── outputs/                 # 输出目录
-│   └── finetuned/           # 微调模型输出
-├── results/                 # 评估结果
-├── frontend/                # 前端项目
-│   ├── src/
-│   │   ├── views/           # 页面组件
-│   │   ├── router/          # 路由配置
-│   │   └── api/             # API接口
-│   └── package.json
-└── docker-compose.yml       # Docker部署配置
+├── README.md                   # 项目说明
+├── requirements.txt            # Python 依赖
+├── scripts/                    # 核心脚本
+│   ├── api_server.py          # FastAPI 推理服务 (主入口)
+│   ├── grading_rules.py       # 分类→分级规则映射
+│   ├── knowledge_base_loader.py # 知识库规则加载
+│   ├── batch_convert_datasets.py # 训练数据格式转换
+│   ├── train_model.py         # LoRA 模型微调训练
+│   ├── evaluate_model.py      # 模型评估
+│   └── compare_models.py      # 基础模型 vs 微调模型对比
+├── models/                    # 模型文件
+│   ├── deepseek-llm-7b-chat/  # DeepSeek-7B-Chat 基座模型
+│   └── tokenizer_fix.py       # 分词器修复 (支持中文)
+├── outputs/finetuned/         # 微调后的 LoRA 权重
+│   └── adapter_model.safetensors
+├── data/                      # 数据目录
+│   ├── knowledge_base/        # 知识库规则
+│   │   ├── general_rules.json     # 通用分类规则
+│   │   └── industry_rules.json    # 行业特定规则
+│   ├── labels/                # 标签定义
+│   │   ├── classification_schema.json  # 24类分类标签
+│   │   └── grading_rules.json        # 分级规则
+│   ├── sft/                   # SFT 训练数据
+│   │   ├── train.jsonl        # 训练集
+│   │   └── val.jsonl          # 验证集
+│   ├── raw/                   # 原始训练数据 (CSV)
+│   └── new/                   # 生成的测试数据集
+├── results/                    # 评估与预测结果
+│   ├── csv_predict/           # CSV 文件预测结果
+│   └── *.json                 # 评估报告
+└── frontend/                  # Vue.js 前端
+    ├── package.json
+    ├── vite.config.js
+    └── src/
+        ├── main.js
+        ├── App.vue
+        ├── router/index.js    # 路由配置
+        ├── api/               # API 客户端
+        │   ├── index.js
+        │   └── knowledge.js
+        ├── views/             # 页面组件
+        │   ├── DashboardView.vue       # 仪表盘
+        │   ├── ClassificationView.vue  # 分类分级
+        │   ├── KnowledgeBaseView.vue   # 知识库管理
+        │   └── VisualizationView.vue    # 数据可视化
+        └── assets/styles/main.scss
 ```
 
 ---
@@ -48,29 +63,29 @@ deepseek_project/
 | 大类 | 标签 | 说明 |
 |------|------|------|
 | **结构标识类** | ID类/主键ID | 唯一标识记录的主键或ID字段 |
-| | 结构类/分类代码 | 用于分类标识的编码字段 |
-| | 结构类/产品代码 | 产品或商品相关的编码字段 |
-| | 结构类/企业代码 | 企业或组织相关的编码字段 |
-| | 结构类/标准代码 | 遵循标准的代码字段 |
+|  | 结构类/分类代码 | 用于分类标识的编码字段 |
+|  | 结构类/产品代码 | 产品或商品相关的编码字段 |
+|  | 结构类/企业代码 | 企业或组织相关的编码字段 |
+|  | 结构类/标准代码 | 遵循标准的代码字段 |
 | **属性描述类** | 属性类/名称标题 | 实体名称或标题字段 |
-| | 属性类/类别标签 | 分类或标签信息字段 |
-| | 属性类/描述文本 | 详细描述内容字段 |
-| | 属性类/技能标签 | 技能或能力标识字段 |
-| | 属性类/地址位置 | 地理位置信息字段 |
+|  | 属性类/类别标签 | 分类或标签信息字段 |
+|  | 属性类/描述文本 | 详细描述内容字段 |
+|  | 属性类/技能标签 | 技能或能力标识字段 |
+|  | 属性类/地址位置 | 地理位置信息字段 |
 | **数值度量类** | 度量类/计量数值 | 连续或离散数值测量字段 |
-| | 度量类/计数统计 | 数量统计类数值字段 |
-| | 度量类/比率比例 | 百分比或比率字段 |
-| | 度量类/时间度量 | 时间相关的数值字段 |
-| | 度量类/序号排序 | 顺序编号字段 |
+|  | 度量类/计数统计 | 数量统计类数值字段 |
+|  | 度量类/比率比例 | 百分比或比率字段 |
+|  | 度量类/时间度量 | 时间相关的数值字段 |
+|  | 度量类/序号排序 | 顺序编号字段 |
 | **身份特征类** | 身份类/人口统计 | 人口统计学特征字段 |
-| | 身份类/联系方式 | 联系方式信息字段 |
-| | 身份类/教育背景 | 教育相关信息字段 |
-| | 身份类/职业信息 | 职业相关特征字段 |
+|  | 身份类/联系方式 | 联系方式信息字段 |
+|  | 身份类/教育背景 | 教育相关信息字段 |
+|  | 身份类/职业信息 | 职业相关特征字段 |
 | **状态标记类** | 状态类/二元标志 | 二值状态标识字段 |
-| | 状态类/状态枚举 | 多状态枚举值字段 |
-| | 状态类/时间标记 | 时间点或时间戳字段 |
+|  | 状态类/状态枚举 | 多状态枚举值字段 |
+|  | 状态类/时间标记 | 时间点或时间戳字段 |
 | **扩展数据类** | 扩展类/扩展代码 | 自定义扩展编码字段 |
-| | 扩展类/其他字段 | 其他未分类字段 |
+|  | 扩展类/其他字段 | 其他未分类字段 |
 
 ### 4级分级标准
 
@@ -88,26 +103,29 @@ deepseek_project/
 ### 1. 环境准备
 
 ```bash
-# 安装Python依赖
+# 安装 Python 依赖
 pip install -r requirements.txt
 
-# 安装Node.js依赖 (前端)
+# 安装 Node.js 依赖 (前端)
 cd frontend && npm install
 ```
 
 ### 2. 模型准备
 
-下载 DeepSeek-7B-Chat 模型到 `models/deepseek-llm-7b-chat` 目录。
-
-### 3. 启动API服务
+从 HuggingFace 下载 DeepSeek-7B-Chat 模型到 `models/deepseek-llm-7b-chat` 目录。
 
 ```bash
-# 方式一：直接运行
-python scripts/api_server.py --port 8001
-
-# 方式二：使用Docker
-docker-compose up api
+# 或者使用 huggingface-cli
+huggingface-cli download deepseek-ai/deepseek-llm-7b-chat
 ```
+
+### 3. 启动 API 服务
+
+```bash
+python scripts/api_server.py --port 8001
+```
+
+服务启动后会自动在后台加载模型，首次加载需要等待 1-3 分钟。
 
 ### 4. 启动前端
 
@@ -118,39 +136,40 @@ npm run dev
 
 访问 http://localhost:3000 即可使用系统。
 
+---
+
 ## 核心功能
 
-### 模型对比评估
+### 字段分类分级
 
-```bash
-python scripts/compare_models.py
-```
-
-该脚本将评估基础模型和微调模型的性能差异，生成详细的对比报告。
-
-### 增强特征提取
-
-```bash
-python scripts/enhanced_feature_extractor.py data/raw/your_file.csv
-```
-
-提取字段的统计特征和语义特征，为模型提供更丰富的输入信息。
+- **单字段分类**: 对单个字段进行分类和分级
+- **批量分类**: 批量处理多个字段
+- **文件上传**: 上传 CSV/Excel 文件，自动分析所有字段
+- **流式返回**: 支持实时进度展示
 
 ### 知识库管理
 
-```bash
-# 初始化知识库
-python scripts/enhanced_knowledge_base.py --save
+- **通用规则**: 跨行业的通用字段分类规则
+- **行业规则**: 特定行业的专业规则
+- **规则冲突检测**: 自动检测规则冲突
 
-# 运行演示
-python scripts/enhanced_knowledge_base.py
+### 模型评估
+
+```bash
+# 评估微调模型
+python scripts/evaluate_model.py --lora
+
+# 对比基础模型 vs 微调模型
+python scripts/compare_models.py
 ```
 
-## API接口
+---
+
+## API 接口
 
 ### 基础信息
 
-- **Base URL**: `http://localhost:8000`
+- **Base URL**: `http://localhost:8001`
 - **Content-Type**: `application/json`
 
 ### 接口列表
@@ -160,15 +179,22 @@ python scripts/enhanced_knowledge_base.py
 | GET | `/` | 服务信息 |
 | GET | `/health` | 健康检查 |
 | GET | `/labels` | 获取分类分级标签 |
+| GET | `/industries` | 获取支持的行业列表 |
+| GET | `/knowledge/stats` | 知识库统计 |
+| GET | `/knowledge/rules` | 获取知识库规则 |
+| POST | `/knowledge/save` | 保存规则 |
+| POST | `/knowledge/reload` | 重新加载知识库 |
+| POST | `/knowledge/conflicts` | 检测规则冲突 |
 | POST | `/classify` | 单字段分类分级 |
 | POST | `/classify/batch` | 批量分类分级 |
 | POST | `/classify/file` | 上传文件分类分级 |
+| POST | `/classify/file/stream` | 流式文件分类分级 |
 
 ### 调用示例
 
 ```bash
 # 单字段分类
-curl -X POST http://localhost:8000/classify \
+curl -X POST http://localhost:8001/classify \
   -H "Content-Type: application/json" \
   -d '{
     "field_name": "customer_age",
@@ -177,33 +203,47 @@ curl -X POST http://localhost:8000/classify \
   }'
 
 # 文件分类
-curl -X POST http://localhost:8000/classify/file \
+curl -X POST http://localhost:8001/classify/file \
+  -F "file=@data.csv" \
+  -F "industry=金融"
+
+# 流式文件分类 (SSE)
+curl -N -X POST http://localhost:8001/classify/file/stream \
   -F "file=@data.csv" \
   -F "industry=金融"
 ```
 
-## 分类分级体系
+### 响应示例
 
-### 分类标签（24类）
+```json
+{
+  "success": true,
+  "message": "分类分级完成",
+  "data": {
+    "field_name": "customer_age",
+    "classification": "身份类/人口统计",
+    "grading": "第3级/敏感",
+    "confidence": 1.0,
+    "warnings": []
+  }
+}
+```
 
-| 一级分类 | 二级分类 |
-|----------|----------|
-| ID类 | 主键ID |
-| 结构类 | 分类代码、产品代码、企业代码、标准代码 |
-| 属性类 | 名称标题、类别标签、描述文本、技能标签、地址位置 |
-| 度量类 | 计量数值、计数统计、比率比例、时间度量、序号排序 |
-| 身份类 | 人口统计、联系方式、教育背景、职业信息 |
-| 状态类 | 二元标志、状态枚举、时间标记 |
-| 扩展类 | 扩展代码、其他字段 |
+---
 
-### 分级标签（4级）
+## 脚本说明
 
-| 级别 | 名称 | 说明 |
-|------|------|------|
-| 第1级 | 公开 | 可向公众公开的数据 |
-| 第2级 | 内部 | 仅限内部人员访问 |
-| 第3级 | 敏感 | 涉及个人/敏感信息 |
-| 第4级 | 机密 | 高度敏感的个人信息 |
+| 脚本 | 用途 |
+|------|------|
+| `api_server.py` | FastAPI 推理服务主入口 |
+| `grading_rules.py` | 分类→分级映射规则 |
+| `knowledge_base_loader.py` | 知识库规则加载/保存 |
+| `batch_convert_datasets.py` | 批量 CSV 转 SFT JSONL 格式 |
+| `train_model.py` | LoRA 微调训练 |
+| `evaluate_model.py` | 模型效果评估 |
+| `compare_models.py` | 基础模型 vs 微调模型对比 |
+
+---
 
 ## 技术栈
 
@@ -211,78 +251,53 @@ curl -X POST http://localhost:8000/classify/file \
 - **模型**: DeepSeek-LLM-7B-Chat
 - **微调**: LoRA (PEFT)
 - **框架**: FastAPI + Uvicorn
-- **依赖**: transformers, peft, torch
+- **依赖**: transformers, peft, torch, pandas
 
 ### 前端
 - **框架**: Vue 3 + Composition API
 - **UI**: Element Plus
 - **图表**: ECharts
 - **构建**: Vite
+- **状态管理**: Pinia
 
-## 开发指南
-
-### 添加新行业规则
-
-```python
-from scripts.enhanced_knowledge_base import EnhancedKnowledgeBase
-
-kb = EnhancedKnowledgeBase()
-kb.add_rule(
-    field_name="field_name",
-    category="分类标签",
-    grading="分级标签",
-    description="规则描述",
-    industry="行业名称"
-)
-kb.save()
-```
-
-### 自定义特征提取
-
-```python
-from scripts.enhanced_feature_extractor import EnhancedFeatureExtractor
-import pandas as pd
-
-extractor = EnhancedFeatureExtractor()
-df = pd.read_csv("your_data.csv")
-features = extractor.extract_all_features(df)
-
-for col, feat in features.items():
-    print(f"{col}: {feat.data_type}, {feat.semantic_hints}")
-```
-
-## 部署说明
-
-### Docker部署
-
-```bash
-# 启动所有服务
-docker-compose up -d
-
-# 仅启动API服务
-docker-compose up -d api
-
-# 仅启动前端
-docker-compose up -d frontend
-```
-
-### GPU支持
-
-确保Docker配置了NVIDIA Container Toolkit：
-```bash
-docker run --gpus all -p 8000:8000 deepseek-api
-```
+---
 
 ## 性能指标
 
-基于当前数据集（420条训练样本，46条验证样本，50条测试样本）：
+基于当前数据集的评估结果：
 
-- **准确率**: 82.69%
-- **F1分数(Macro)**: ~0.78
-- **F1分数(Weighted)**: ~0.82
-- **训练时间**: <2小时
-- **可训练参数**: ~0.1%（LoRA）
+| 指标 | 数值 |
+|------|------|
+| 准确率 | ~82% |
+| F1分数 (Macro) | ~0.78 |
+| F1分数 (Weighted) | ~0.82 |
+| 训练时间 | <2小时 (GPU) |
+| 可训练参数 | ~0.1% (LoRA) |
 
+---
+
+## 部署说明
+
+### 开发模式
+
+```bash
+# 终端1: 启动后端
+python scripts/api_server.py --port 8001
+
+# 终端2: 启动前端
+cd frontend && npm run dev
+```
+
+### 生产部署
+
+```bash
+# 构建前端
+cd frontend && npm run build
+
+# 使用 nginx 或其他 Web 服务器托管 dist 目录
+```
+
+---
 
 ## 参考标准
 

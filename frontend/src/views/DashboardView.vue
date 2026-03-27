@@ -7,7 +7,7 @@
           
         </div>
         <div class="nav-menu">
-          <el-menu mode="horizontal" :default-active="currentRoute" router>
+          <el-menu mode="horizontal" :default-active="currentRoute" :ellipsis="false" router>
             <el-menu-item index="/dashboard">
               <el-icon><House /></el-icon>
               <span>首页</span>
