@@ -1,0 +1,175 @@
+{
+  "金融": [
+    {
+      "id": "fin_001",
+      "field": "account_no",
+      "category": "身份类/金融账户",
+      "grading": "第4级/机密",
+      "description": "银行账号"
+    },
+    {
+      "id": "fin_002",
+      "field": "card_no",
+      "category": "身份类/金融账户",
+      "grading": "第4级/机密",
+      "description": "银行卡号"
+    },
+    {
+      "id": "fin_003",
+      "field": "balance",
+      "category": "度量类/计量数值",
+      "grading": "第3级/敏感",
+      "description": "账户余额"
+    },
+    {
+      "id": "fin_004",
+      "field": "credit_score",
+      "category": "度量类/计量数值",
+      "grading": "第3级/敏感",
+      "description": "信用评分"
+    },
+    {
+      "id": "fin_005",
+      "field": "loan_amount",
+      "category": "度量类/计量数值",
+      "grading": "第2级/内部",
+      "description": "贷款金额"
+    },
+    {
+      "id": "fin_006",
+      "field": "transaction_amount",
+      "category": "度量类/计量数值",
+      "grading": "第3级/敏感",
+      "description": "交易金额"
+    }
+  ],
+  "医疗": [
+    {
+      "id": "med_001",
+      "field": "patient_id",
+      "category": "ID类/主键ID",
+      "grading": "第3级/敏感",
+      "description": "患者ID"
+    },
+    {
+      "id": "med_002",
+      "field": "diagnosis",
+      "category": "身份类/健康信息",
+      "grading": "第4级/机密",
+      "description": "诊断信息"
+    },
+    {
+      "id": "med_003",
+      "field": "medical_record",
+      "category": "身份类/健康信息",
+      "grading": "第4级/机密",
+      "description": "病历记录"
+    },
+    {
+      "id": "med_004",
+      "field": "insurance_no",
+      "category": "身份类/保险信息",
+      "grading": "第3级/敏感",
+      "description": "医保卡号"
+    }
+  ],
+  "教育": [
+    {
+      "id": "edu_001",
+      "field": "student_id",
+      "category": "ID类/主键ID",
+      "grading": "第2级/内部",
+      "description": "学生ID"
+    },
+    {
+      "id": "edu_002",
+      "field": "grade",
+      "category": "度量类/计量数值",
+      "grading": "第2级/内部",
+      "description": "成绩"
+    },
+    {
+      "id": "edu_003",
+      "field": "enrollment_date",
+      "category": "状态类/时间标记",
+      "grading": "第1级/公开",
+      "description": "入学日期"
+    },
+    {
+      "id": "edu_004",
+      "field": "tuition_fee",
+      "category": "度量类/计量数值",
+      "grading": "第2级/内部",
+      "description": "学费"
+    }
+  ],
+  "工业": [
+    {
+      "id": "ind_001",
+      "field": "device_id",
+      "category": "ID类/主键ID",
+      "grading": "第1级/公开",
+      "description": "设备ID"
+    },
+    {
+      "id": "ind_002",
+      "field": "sensor_data",
+      "category": "度量类/计量数值",
+      "grading": "第1级/公开",
+      "description": "传感器数据"
+    },
+    {
+      "id": "ind_003",
+      "field": "maintenance_record",
+      "category": "属性类/描述文本",
+      "grading": "第2级/内部",
+      "description": "维护记录"
+    }
+  ],
+  "商业": [
+    {
+      "id": "biz_001",
+      "field": "customer_id",
+      "category": "ID类/主键ID",
+      "grading": "第2级/内部",
+      "description": "客户ID"
+    },
+    {
+      "id": "biz_002",
+      "field": "order_amount",
+      "category": "度量类/计量数值",
+      "grading": "第3级/敏感",
+      "description": "订单金额"
+    },
+    {
+      "id": "biz_003",
+      "field": "purchase_history",
+      "category": "身份类/消费偏好",
+      "grading": "第3级/敏感",
+      "description": "购买历史"
+    }
+  ],
+  "政务": [
+    {
+      "id": "gov_001",
+      "field": "citizen_id",
+      "category": "身份类/人口统计",
+      "grading": "第4级/机密",
+      "description": "公民身份证号"
+    },
+    {
+      "id": "gov_002",
+      "field": "household_register",
+      "category": "身份类/户籍信息",
+      "grading": "第4级/机密",
+      "description": "户籍信息"
+    },
+    {
+      "id": "gov_003",
+      "field": "tax_record",
+      "category": "度量类/计量数值",
+      "grading": "第3级/敏感",
+      "description": "税务记录"
+    }
+  ]
+}

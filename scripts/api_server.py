@@ -33,6 +33,16 @@ from scripts.grading_rules import (
     infer_grading,
     load_grading_rules
 )
+from scripts.knowledge_base_loader import (
+    get_classification_from_rules,
+    get_grading_from_rules,
+    get_knowledge_base_stats,
+    reload_knowledge_base,
+    load_general_rules,
+    load_industry_rules,
+    save_general_rules,
+    save_industry_rules
+)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_DIR = os.path.join(BASE_DIR, "models/deepseek-llm-7b-chat")
@@ -441,10 +451,16 @@ def get_samples_from_series(series: pd.Series, n: int = 10) -> List[str]:
 
 
 def predict_classification(field_name: str, industry: str, samples: str) -> str:
-    """预测分类，并使用规则推断作为兜底"""
+    """预测分类，优先使用知识库规则，模型作为兜底"""
     global model, tokenizer
 
-    # 1. 先尝试用模型预测
+    # 1. 优先使用知识库规则
+    kb_classification = get_classification_from_rules(field_name, industry)
+    if kb_classification:
+        print(f"字段[{field_name}]分类结果: {kb_classification} (知识库规则)")
+        return kb_classification
+
+    # 2. 尝试用模型预测
     try:
         m, t = get_model()
 
@@ -477,19 +493,19 @@ def predict_classification(field_name: str, industry: str, samples: str) -> str:
         response = t.decode(outputs[0][len(input_ids[0]):], skip_special_tokens=True)
         result = extract_label(response, CLASSIFICATION_LABELS, label_type="classification")
 
-        # 2. 验证结果是否是有效的分类标签
+        # 3. 验证结果是否是有效的分类标签
         if result in CLASSIFICATION_LABELS:
             print(f"字段[{field_name}]分类结果: {result} (模型预测)")
             return result
 
-        # 3. 模型输出无效，使用规则推断
+        # 4. 模型输出无效，使用规则推断
         print(f"字段[{field_name}]模型输出无效: '{response[:30]}...', 使用规则推断")
         inferred = infer_classification_from_field_name(field_name)
         print(f"字段[{field_name}]推断分类: {inferred}")
         return inferred
 
     except Exception as e:
-        # 4. 模型出错，使用规则推断
+        # 5. 模型出错，使用规则推断
         print(f"字段[{field_name}]模型预测失败: {e}, 使用规则推断")
         inferred = infer_classification_from_field_name(field_name)
         print(f"字段[{field_name}]推断分类: {inferred}")
@@ -497,8 +513,14 @@ def predict_classification(field_name: str, industry: str, samples: str) -> str:
 
 
 def predict_grading(field_name: str, industry: str, samples: str, classification: str) -> str:
-    """预测分级 - 基于分类映射，不依赖模型预测"""
-    # 直接使用 grading_rules 模块的 infer_grading 函数
+    """预测分级，优先使用知识库规则，基于分类映射作为兜底"""
+    # 1. 优先使用知识库规则
+    kb_grading = get_grading_from_rules(field_name, industry)
+    if kb_grading:
+        print(f"字段[{field_name}]分级结果: {kb_grading} (知识库规则)")
+        return kb_grading
+
+    # 2. 基于分类推断分级
     grading = infer_grading(classification, field_name, samples)
     print(f"字段[{field_name}]分级结果: {grading} (基于分类映射: {classification})")
     return grading
@@ -747,6 +769,111 @@ async def get_industries():
             {"code": "government", "name": "政务"},
             {"code": "other", "name": "其他"}
         ]
+    }
+
+
+@app.get("/knowledge/stats")
+async def get_knowledge_stats():
+    """获取知识库统计信息"""
+    stats = get_knowledge_base_stats()
+    return {
+        "totalRules": stats.get("totalRules", 0),
+        "totalIndustryRules": stats.get("totalIndustryRules", 0),
+        "cachedFields": stats.get("cachedFields", 0),
+        "industries": stats.get("industries", [])
+    }
+
+
+@app.post("/knowledge/reload")
+async def reload_knowledge():
+    """重新加载知识库"""
+    reload_knowledge_base()
+    return {"success": True, "message": "知识库已重新加载"}
+
+
+@app.post("/knowledge/save")
+async def save_knowledge_rules(request: dict):
+    """保存规则到后端目录"""
+    try:
+        general_rules = request.get("general_rules", [])
+        industry_rules = request.get("industry_rules", {})
+
+        if save_general_rules(general_rules):
+            pass
+        else:
+            return {"success": False, "message": "保存通用规则失败"}
+
+        if save_industry_rules(industry_rules):
+            pass
+        else:
+            return {"success": False, "message": "保存行业规则失败"}
+
+        return {"success": True, "message": "规则已保存到后端目录"}
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return {"success": False, "message": f"保存失败: {str(e)}"}
+
+
+@app.get("/knowledge/rules")
+async def get_knowledge_rules():
+    """获取知识库规则"""
+    general = load_general_rules()
+    industry = load_industry_rules()
+    return {
+        "general_rules": general,
+        "industry_rules": industry
+    }
+
+
+@app.get("/knowledge/conflicts")
+async def detect_conflicts():
+    """检测规则冲突"""
+    general_rules = load_general_rules()
+    industry_rules = load_industry_rules()
+
+    conflicts = []
+
+    # 检测同一字段不同分类
+    field_map = {}
+
+    for rule in general_rules:
+        patterns = rule.get("patterns", [])
+        for pattern in patterns:
+            if pattern not in field_map:
+                field_map[pattern] = []
+            field_map[pattern].append({
+                "type": "通用规则",
+                "category": rule.get("category"),
+                "grading": rule.get("grading")
+            })
+
+    for industry, rules in industry_rules.items():
+        for rule in rules:
+            field = rule.get("field", "")
+            if field not in field_map:
+                field_map[field] = []
+            field_map[field].append({
+                "type": f"行业规则({industry})",
+                "category": rule.get("category"),
+                "grading": rule.get("grading")
+            })
+
+    # 找出冲突
+    for field, entries in field_map.items():
+        if len(entries) > 1:
+            categories = set(e["category"] for e in entries)
+            gradings = set(e["grading"] for e in entries)
+            if len(categories) > 1 or len(gradings) > 1:
+                conflicts.append({
+                    "field": field,
+                    "entries": entries,
+                    "issue": "同一字段存在多个不同的分类或分级"
+                })
+
+    return {
+        "conflicts": conflicts,
+        "total_conflicts": len(conflicts)
     }
 
 

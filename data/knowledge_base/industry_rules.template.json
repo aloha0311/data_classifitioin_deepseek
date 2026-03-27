@@ -1,0 +1,46 @@
+// 行业规则模板
+// 文件路径: data/knowledge_base/industry_rules.json
+// 格式说明: JSON对象，按行业分类，每个行业下是规则数组
+
+{
+  "行业名称": [
+    {
+      "id": "xxx_001",       // 唯一标识符，格式: 行业缩写_XXX
+      "field": "字段名",       // 要匹配的精确字段名
+      "category": "分类标签",  // 同上
+      "grading": "分级标签",   // 同上
+      "description": "规则描述" // 可选
+    }
+  ],
+  "金融": [],
+  "医疗": [],
+  "教育": [],
+  "工业": [],
+  "商业": [],
+  "政务": [],
+  "其他": []
+}
+
+// 示例
+/*
+{
+  "金融": [
+    {
+      "id": "fin_001",
+      "field": "account_no",
+      "category": "身份类/金融账户",
+      "grading": "第4级/机密",
+      "description": "银行账号"
+    }
+  ],
+  "医疗": [
+    {
+      "id": "med_001",
+      "field": "patient_id",
+      "category": "ID类/主键ID",
+      "grading": "第3级/敏感",
+      "description": "患者ID"
+    }
+  ]
+}
+*/

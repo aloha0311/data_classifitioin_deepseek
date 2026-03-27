@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import ClassificationView from '../views/ClassificationView.vue'
 import KnowledgeBaseView from '../views/KnowledgeBaseView.vue'
 import DashboardView from '../views/DashboardView.vue'
+import VisualizationView from '../views/VisualizationView.vue'
 
 const routes = [
   {
@@ -22,6 +23,11 @@ const routes = [
     path: '/knowledge',
     name: 'KnowledgeBase',
     component: KnowledgeBaseView
+  },
+  {
+    path: '/visualization',
+    name: 'Visualization',
+    component: VisualizationView
   },
   {
     path: '/:pathMatch(.*)*',

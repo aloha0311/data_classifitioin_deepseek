@@ -3,8 +3,8 @@
     <div class="header">
       <div class="header-content">
         <div class="logo">
-          <h1>数据分类分级系统</h1>
-          <p>基于 DeepSeek-7B 大语言模型</p>
+          <h1>基于DeepSeek的数据自动化分类分级系统</h1>
+          
         </div>
         <div class="nav-menu">
           <el-menu mode="horizontal" :default-active="currentRoute" router>
@@ -20,6 +20,10 @@
               <el-icon><Box /></el-icon>
               <span>知识库</span>
             </el-menu-item>
+            <el-menu-item index="/visualization">
+              <el-icon><DataAnalysis /></el-icon>
+              <span>可视化</span>
+            </el-menu-item>
           </el-menu>
         </div>
       </div>
@@ -30,7 +34,7 @@
         <el-col :span="24">
           <div class="welcome-card">
             <h2>欢迎使用数据分类分级系统</h2>
-            <p>本系统基于 DeepSeek-7B 大语言模型，能够自动对数据字段进行分类和分级，帮助您快速识别敏感数据。</p>
+            <p>本系统基于 DeepSeek-llm-7B-chat 大语言模型，能够自动对数据字段进行分类和分级，帮助您快速识别敏感数据。</p>
           </div>
         </el-col>
       </el-row>
@@ -115,7 +119,7 @@
             <el-icon class="feature-icon"><DataAnalysis /></el-icon>
             <h3>结果可视化</h3>
             <p>图表展示分类分级结果，支持导出和详情查看</p>
-            <el-button type="primary">查看报告</el-button>
+            <el-button type="primary" @click="$router.push('/visualization')">查看报告</el-button>
           </el-card>
         </el-col>
       </el-row>

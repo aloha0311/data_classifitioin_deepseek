@@ -1,12 +1,38 @@
 <template>
   <div class="classification-container">
     <div class="header">
-      <h1>数据分类分级系统</h1>
-      <p class="subtitle">基于DeepSeek-7B大语言模型的智能分类分级</p>
+      <div class="header-content">
+        <div class="logo">
+          <h1>数据分类分级系统</h1>
+          <p class="subtitle">基于DeepSeek-7B大语言模型的智能分类分级</p>
+        </div>
+        <div class="nav-menu">
+          <el-menu mode="horizontal" :default-active="currentRoute" :ellipsis="false" router>
+            <el-menu-item index="/dashboard">
+              <el-icon><House /></el-icon>
+              <span>首页</span>
+            </el-menu-item>
+            <el-menu-item index="/classify">
+              <el-icon><Upload /></el-icon>
+              <span>文件分析</span>
+            </el-menu-item>
+            <el-menu-item index="/knowledge">
+              <el-icon><Box /></el-icon>
+              <span>知识库</span>
+            </el-menu-item>
+            <el-menu-item index="/visualization">
+              <el-icon><DataAnalysis /></el-icon>
+              <span>可视化</span>
+            </el-menu-item>
+          </el-menu>
+        </div>
+      </div>
     </div>
 
-    <!-- 上传区域 -->
-    <div class="upload-section">
+    <!-- 主内容区域 -->
+    <div class="main-content">
+      <!-- 上传区域 -->
+      <div class="upload-section">
       <el-card class="upload-card">
         <template #header>
           <div class="card-header">
@@ -263,13 +289,151 @@
         </div>
       </div>
     </el-dialog>
+
+    <!-- 结果展示 -->
+    <div v-if="results.length > 0" class="results-section">
+      <el-card class="results-card">
+        <template #header>
+          <div class="card-header">
+            <span>分类分级结果</span>
+            <div class="header-actions">
+              <el-button type="info" @click="resetAnalysis" :disabled="uploading">
+                <el-icon><RefreshLeft /></el-icon> 重新分析
+              </el-button>
+              <el-button type="primary" @click="exportResults">
+                <el-icon><Download /></el-icon> 导出结果
+              </el-button>
+            </div>
+          </div>
+        </template>
+
+        <!-- 统计摘要 -->
+        <div class="stats-summary">
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <div class="stat-item">
+                <div class="stat-value">{{ results.length }}</div>
+                <div class="stat-label">总字段数</div>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="stat-item">
+                <div class="stat-value">{{ classificationStats.length }}</div>
+                <div class="stat-label">分类数</div>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="stat-item">
+                <div class="stat-value">{{ warningCount }}</div>
+                <div class="stat-label">敏感字段</div>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="stat-item">
+                <div class="stat-value">{{ currentFile?.name || '-' }}</div>
+                <div class="stat-label">文件名</div>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+
+        <!-- 分类分布图表 -->
+        <div class="chart-container">
+          <div id="classificationChart" style="width: 100%; height: 300px"></div>
+        </div>
+
+        <!-- 结果表格 -->
+        <div class="table-wrapper">
+          <el-table :data="results" stripe style="width: 100%">
+            <el-table-column prop="field_name" label="字段名" min-width="150" />
+            <el-table-column label="含义/用途" min-width="200">
+              <template #default="{ row }">
+                <span class="field-meaning">{{ row.meaning || '模型未提供' }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="classification" label="分类" min-width="180">
+              <template #default="{ row }">
+                <el-tag :type="getClassificationType(row.classification)" size="small">
+                  {{ row.classification }}
+                </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="grading" label="分级" min-width="140">
+              <template #default="{ row }">
+                <el-tag :type="getGradingType(row.grading)" effect="dark" size="small">
+                  {{ row.grading }}
+                </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" width="100" fixed="right">
+              <template #default="{ row }">
+                <el-button type="primary" link @click="showDetail(row)">详情</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-card>
+    </div>
+
+    <!-- 详情对话框 -->
+    <el-dialog v-model="detailVisible" title="字段详情" width="600px">
+      <div v-if="currentDetail" class="detail-content">
+        <el-descriptions :column="2" border>
+          <el-descriptions-item label="字段名">{{ currentDetail.field_name }}</el-descriptions-item>
+          <el-descriptions-item label="分类">
+            <el-tag :type="getClassificationType(currentDetail.classification)">
+              {{ currentDetail.classification }}
+            </el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="分级">
+            <el-tag :type="getGradingType(currentDetail.grading)" effect="dark">
+              {{ currentDetail.grading }}
+            </el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="数据类型">{{ currentDetail.data_type || '-' }}</el-descriptions-item>
+        </el-descriptions>
+
+        <div class="meaning-section">
+          <h4>业务含义</h4>
+          <div class="meaning-content">
+            {{ currentDetail.meaning || '未提供' }}
+          </div>
+        </div>
+
+        <div v-if="currentDetail.samples && currentDetail.samples.length > 0" class="samples-section">
+          <h4>数据样本</h4>
+          <div class="samples-list">
+            <el-tag
+              v-for="(sample, idx) in currentDetail.samples.slice(0, 8)"
+              :key="idx"
+              class="sample-tag"
+            >
+              {{ sample }}
+            </el-tag>
+          </div>
+          <div v-if="currentDetail.samples.length > 8" class="samples-more">
+            还有 {{ currentDetail.samples.length - 8 }} 条数据未显示
+          </div>
+        </div>
+
+        <!-- 处理建议 -->
+        <div class="suggestion-section">
+          <h4>处理建议</h4>
+          <div class="suggestion-content">
+            {{ getSuggestionText(currentDetail) }}
+          </div>
+        </div>
+      </div>
+    </el-dialog>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, nextTick } from 'vue'
+import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { UploadFilled, Download, Loading, ArrowDown, ArrowUp, RefreshLeft, Document } from '@element-plus/icons-vue'
+import { UploadFilled, Download, Loading, ArrowDown, ArrowUp, RefreshLeft, Document, House, Box, DataAnalysis } from '@element-plus/icons-vue'
 import axios from 'axios'
 import * as echarts from 'echarts'
 import * as XLSX from 'xlsx'
@@ -342,6 +506,38 @@ const saveAnalysisStats = (data) => {
 
     localStorage.setItem(ANALYSIS_STATS_KEY, JSON.stringify(stats))
     console.log('统计已保存:', stats)
+
+    // 同时保存到分析历史记录
+    const filename = data.filename || '未知文件'
+    const historyKey = 'analysis_history'
+    let history = []
+    try {
+      const saved = localStorage.getItem(historyKey)
+      if (saved) {
+        history = JSON.parse(saved)
+      }
+    } catch (e) {
+      history = []
+    }
+
+    // 添加新记录
+    history.unshift({
+      id: Date.now().toString(),
+      filename: filename,
+      industry: industry,
+      fieldCount: results.length,
+      sensitiveCount: sensitiveResults.length,
+      timestamp: new Date().toISOString(),
+      results: results
+    })
+
+    // 只保留最近50条记录
+    if (history.length > 50) {
+      history = history.slice(0, 50)
+    }
+
+    localStorage.setItem(historyKey, JSON.stringify(history))
+    console.log('历史记录已保存，共', history.length, '条')
   } catch (e) {
     console.error('保存统计失败:', e)
   }
@@ -383,6 +579,9 @@ const detailVisible = ref(false)
 const currentDetail = ref(null)
 const currentFile = ref(null)
 const demoMode = ref(false)
+
+const router = useRouter()
+const currentRoute = ref('/classify')
 
 // 进度相关
 const uploadProgress = ref(0)
@@ -738,6 +937,7 @@ const submitUpload = async () => {
     // 保存统计信息
     if (results.value.length > 0) {
       saveAnalysisStats({
+        filename: currentFile.value?.name || '未知文件',
         results: results.value,
         industry: selectedIndustry.value || '其他'
       })
@@ -927,21 +1127,53 @@ onMounted(() => {
 }
 
 .header {
-  text-align: center;
-  color: white;
-  margin-bottom: 30px;
+  padding: 0 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   background: linear-gradient(135deg, #2c5282 0%, #1a365d 100%);
-  padding: 40px 20px;
-  border-radius: 12px;
+}
 
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-content {
+  padding: 20px;
+}
+
+.logo {
   h1 {
-    font-size: 32px;
-    margin-bottom: 10px;
+    font-size: 24px;
+    margin: 0;
+    color: white;
   }
-
   .subtitle {
-    font-size: 16px;
-    opacity: 0.9;
+    font-size: 12px;
+    margin: 5px 0 0;
+    opacity: 0.85;
+    color: white;
+  }
+}
+
+.nav-menu {
+  :deep(.el-menu) {
+    background: transparent;
+    border: none;
+  }
+  :deep(.el-menu-item) {
+    color: rgba(255, 255, 255, 0.9);
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    &.is-active {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border-bottom-color: rgba(255, 255, 255, 0.8);
+    }
   }
 }
 
