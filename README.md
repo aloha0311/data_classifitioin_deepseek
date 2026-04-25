@@ -11,11 +11,15 @@ deepseek_project/
 ├── scripts/                    # 核心脚本
 │   ├── api_server.py          # FastAPI 推理服务 (主入口)
 │   ├── grading_rules.py       # 分类→分级规则映射
-│   ├── knowledge_base_loader.py # 知识库规则加载
+│   ├── knowledge_base_loader.py # 知识库规则加载（支持向量相似度）
 │   ├── batch_convert_datasets.py # 训练数据格式转换
 │   ├── train_model.py         # LoRA 模型微调训练
 │   ├── evaluate_model.py      # 模型评估
-│   └── compare_models.py      # 基础模型 vs 微调模型对比
+│   ├── compare_models.py      # 基础模型 vs 微调模型对比
+│   ├── similarity_calculator.py # 向量相似度计算
+│   ├── embedding_extractor.py  # 字段语义建模
+│   ├── model_compression.py   # 模型压缩/量化
+│   └── test_new_modules.py    # 新增模块测试脚本
 ├── models/                    # 模型文件
 │   ├── deepseek-llm-7b-chat/  # DeepSeek-7B-Chat 基座模型
 │   └── tokenizer_fix.py       # 分词器修复 (支持中文)
@@ -28,6 +32,7 @@ deepseek_project/
 │   ├── labels/                # 标签定义
 │   │   ├── classification_schema.json  # 24类分类标签
 │   │   └── grading_rules.json        # 分级规则
+│   ├── embeddings/            # 向量嵌入缓存
 │   ├── sft/                   # SFT 训练数据
 │   │   ├── train.jsonl        # 训练集
 │   │   └── val.jsonl          # 验证集
@@ -185,10 +190,18 @@ python scripts/compare_models.py
 | POST | `/knowledge/save` | 保存规则 |
 | POST | `/knowledge/reload` | 重新加载知识库 |
 | POST | `/knowledge/conflicts` | 检测规则冲突 |
+| POST | `/knowledge/similarity-search` | 向量相似度搜索 |
+| POST | `/knowledge/check-conflicts` | 检测与知识库的冲突 |
 | POST | `/classify` | 单字段分类分级 |
 | POST | `/classify/batch` | 批量分类分级 |
 | POST | `/classify/file` | 上传文件分类分级 |
 | POST | `/classify/file/stream` | 流式文件分类分级 |
+| POST | `/similarity/calculate` | 计算两字段相似度 |
+| POST | `/similarity/find` | 批量查找相似字段 |
+| POST | `/similarity/knowledge-base` | 知识库相似度搜索 |
+| POST | `/semantic/model` | 字段语义建模 |
+| GET | `/semantic/categories` | 获取语义分类映射 |
+| GET | `/model/info` | 模型压缩信息 |
 
 ### 调用示例
 
@@ -237,13 +250,18 @@ curl -N -X POST http://localhost:8001/classify/file/stream \
 |------|------|
 | `api_server.py` | FastAPI 推理服务主入口 |
 | `grading_rules.py` | 分类→分级映射规则 |
-| `knowledge_base_loader.py` | 知识库规则加载/保存 |
+| `knowledge_base_loader.py` | 知识库规则加载/保存（支持向量相似度匹配） |
 | `batch_convert_datasets.py` | 批量 CSV 转 SFT JSONL 格式 |
 | `train_model.py` | LoRA 微调训练 |
 | `evaluate_model.py` | 模型效果评估 |
 | `compare_models.py` | 基础模型 vs 微调模型对比 |
+| `similarity_calculator.py` | 向量相似度计算（TF-IDF + 编辑距离） |
+| `embedding_extractor.py` | 字段语义建模（多模态特征提取） |
+| `model_compression.py` | 模型压缩（INT8/QLoRA量化、剪枝） |
+| `test_new_modules.py` | 新增模块测试脚本 |
 
 ---
+
 
 ## 技术栈
 
@@ -297,6 +315,23 @@ cd frontend && npm run build
 # 使用 nginx 或其他 Web 服务器托管 dist 目录
 ```
 
+### 模型压缩 (`model_compression.py`)
+
+提供多种模型轻量化技术：
+
+```bash
+# INT8量化
+python scripts/model_compression.py --method int8
+
+# QLoRA 4-bit量化
+python scripts/model_compression.py --method qlora
+
+# FP16半精度
+python scripts/model_compression.py --method fp16
+
+# 模型剪枝
+python scripts/model_compression.py --method pruned --sparsity 0.3
+```
 ---
 
 ## 参考标准

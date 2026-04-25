@@ -43,6 +43,8 @@ from scripts.knowledge_base_loader import (
     save_general_rules,
     save_industry_rules
 )
+from scripts.similarity_calculator import FieldSimilarityCalculator, find_similar_in_knowledge_base
+from scripts.embedding_extractor import FieldSemanticModeler
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_DIR = os.path.join(BASE_DIR, "models/deepseek-llm-7b-chat")
@@ -55,6 +57,10 @@ GRADING_LABELS = get_grading_labels()
 # 加载分级规则
 _grade_rules = load_grading_rules()
 CLASSIFICATION_TO_GRADING = _grade_rules.get("classification_to_grading", {})
+
+# 初始化相似度计算器和语义建模器
+similarity_calculator = FieldSimilarityCalculator()
+semantic_modeler = FieldSemanticModeler()
 
 # ============= 分类规则映射 =============
 # 用于根据字段名模式快速推断分类
@@ -875,6 +881,230 @@ async def detect_conflicts():
         "conflicts": conflicts,
         "total_conflicts": len(conflicts)
     }
+
+
+@app.post("/knowledge/similarity-search")
+async def kb_similarity_search(request: dict):
+    """基于向量相似度在知识库中搜索相似字段"""
+    try:
+        from scripts.knowledge_base_loader import find_similar_fields_in_kb
+
+        target_field = request.get("field", "")
+        industry = request.get("industry")
+        top_k = request.get("top_k", 5)
+        threshold = request.get("threshold", 0.5)
+
+        results = find_similar_fields_in_kb(
+            target_field,
+            industry=industry,
+            top_k=top_k,
+            threshold=threshold
+        )
+
+        return {
+            "success": True,
+            "data": {
+                "target_field": target_field,
+                "matched_fields": [
+                    {
+                        "field": r.matched_field,
+                        "similarity": round(r.similarity, 4),
+                        "category": r.category,
+                        "grading": r.grading,
+                        "source": r.source
+                    }
+                    for r in results
+                ]
+            }
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@app.post("/knowledge/check-conflicts")
+async def check_conflicts(request: dict):
+    """检测新字段与知识库的冲突"""
+    try:
+        from scripts.knowledge_base_loader import detect_conflicts_with_similarity
+
+        target_field = request.get("field", "")
+        predicted_category = request.get("category", "")
+        predicted_grading = request.get("grading", "")
+        industry = request.get("industry")
+
+        conflicts = detect_conflicts_with_similarity(
+            target_field,
+            predicted_category,
+            predicted_grading,
+            industry=industry
+        )
+
+        return {
+            "success": True,
+            "data": {
+                "has_conflicts": len(conflicts) > 0,
+                "conflicts": conflicts
+            }
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+# ============= 新增接口：向量相似度与语义建模 =============
+
+class SimilarityRequest(BaseModel):
+    field1: str
+    field2: str
+
+
+class BatchSimilarityRequest(BaseModel):
+    target_field: str
+    candidate_fields: List[str]
+    top_k: int = 5
+    threshold: float = 0.3
+
+
+class SemanticModelingRequest(BaseModel):
+    field_name: str
+    samples: List[str] = []
+
+
+@app.post("/similarity/calculate")
+async def calculate_similarity(request: SimilarityRequest):
+    """计算两个字段之间的相似度"""
+    try:
+        result = similarity_calculator.compute_similarity(request.field1, request.field2)
+        return {
+            "success": True,
+            "data": {
+                "field1": result.field1,
+                "field2": result.field2,
+                "char_similarity": result.char_similarity,
+                "semantic_similarity": result.semantic_similarity,
+                "combined_score": result.combined_score,
+                "match_level": result.match_level
+            }
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@app.post("/similarity/find")
+async def find_similar_fields(request: BatchSimilarityRequest):
+    """在候选字段中查找与目标字段最相似的字段"""
+    try:
+        similar = similarity_calculator.find_similar_fields(
+            request.target_field,
+            request.candidate_fields,
+            top_k=request.top_k,
+            threshold=request.threshold
+        )
+        return {
+            "success": True,
+            "data": {
+                "target_field": request.target_field,
+                "similar_fields": [
+                    {
+                        "field": r.field2,
+                        "char_similarity": r.char_similarity,
+                        "semantic_similarity": r.semantic_similarity,
+                        "combined_score": r.combined_score,
+                        "match_level": r.match_level
+                    }
+                    for r in similar
+                ]
+            }
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@app.post("/similarity/knowledge-base")
+async def similarity_in_knowledge_base(request: SimilarityRequest):
+    """在知识库中查找与目标字段相似的已分类字段"""
+    try:
+        general_rules = load_general_rules()
+        matched = find_similar_in_knowledge_base(request.field1, general_rules, threshold=0.3)
+        return {
+            "success": True,
+            "data": {
+                "target_field": request.field1,
+                "matched_rules": matched[:5]
+            }
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@app.post("/semantic/model")
+async def model_field_semantic(request: SemanticModelingRequest):
+    """对字段进行语义建模，提取多模态特征"""
+    try:
+        features = semantic_modeler.model_field(request.field_name, request.samples)
+        return {
+            "success": True,
+            "data": {
+                "field_name": features.field_name,
+                "normalized_name": features.normalized_name,
+                "structure_features": {
+                    "suffix_match": features.structure_features.get("suffix_match", 0),
+                    "inferred_category": features.structure_features.get("suffix_category"),
+                    "word_count": features.structure_features.get("word_count", 0)
+                },
+                "semantic_features": {
+                    "inferred_category": features.inferred_category,
+                    "confidence": features.inferred_confidence,
+                    "is_sensitive": features.semantic_features.get("is_sensitive", 0) == 1.0,
+                    "is_numeric": features.semantic_features.get("is_numeric", 0) == 1.0,
+                    "is_date": features.semantic_features.get("is_date", 0) == 1.0
+                },
+                "data_features": {
+                    "pattern_type": features.data_features.get("pattern_type", "unknown") if features.data_features else "unknown",
+                    "unique_ratio": features.data_features.get("stats", {}).unique_ratio if features.data_features else 0,
+                    "null_ratio": features.data_features.get("stats", {}).null_ratio if features.data_features else 0
+                }
+            }
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@app.get("/semantic/categories")
+async def get_semantic_categories():
+    """获取语义分类关键词映射"""
+    return {
+        "success": True,
+        "data": {
+            "categories": FieldSemanticModeler.CATEGORY_KEYWORDS,
+            "suffix_patterns": FieldSemanticModeler.SUFFIX_PATTERNS
+        }
+    }
+
+
+@app.get("/model/info")
+async def get_model_info():
+    """获取模型压缩相关信息"""
+    from scripts.model_compression import ModelCompressor
+    
+    try:
+        compressor = ModelCompressor(MODEL_DIR)
+        original_size = compressor.get_model_size(MODEL_DIR)
+        
+        return {
+            "success": True,
+            "data": {
+                "model_path": MODEL_DIR,
+                "original_size_gb": round(original_size, 2),
+                "compression_methods": ["int8", "qlora", "fp16", "pruned"],
+                "estimated_compressed_sizes": {
+                    "int8": round(original_size / 2, 2),
+                    "qlora_4bit": round(original_size / 4, 2),
+                    "fp16": round(original_size / 2, 2)
+                }
+            }
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
 
 
 def run_server(host: str = "0.0.0.0", port: int = 8001):
