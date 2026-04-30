@@ -56,7 +56,7 @@ def load_model(use_lora=False):
 def load_test_data():
     """加载测试数据"""
     test_file = os.path.join(BASE_DIR, "data/sft/test.jsonl")
-    val_file = os.path.join(BASE_DIR, "data/sft/val.jsonl")
+    val_file = os.path.join(BASE_DIR, "data/validation/balanced_val.jsonl")
     
     filepath = test_file if os.path.exists(test_file) else val_file
     print(f"\n加载测试数据: {filepath}")
