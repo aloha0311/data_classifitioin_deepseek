@@ -1,0 +1,12 @@
+{
+  "filename": "淘宝用户行为数据集_extra_test.csv",
+  "industry": "商业",
+  "total_fields": 5,
+  "annotations": [
+    {"field": "user_id", "classification": "ID类/主键ID", "grading": "第1级/公开", "samples": ["31471752", "66412678"], "meaning": "用户唯一标识ID"},
+    {"field": "item_id", "classification": "结构类/产品代码", "grading": "第1级/公开", "samples": ["260068835", "286615635"], "meaning": "商品ID"},
+    {"field": "behavior_type", "classification": "状态类/状态枚举", "grading": "第1级/公开", "samples": ["1", "3"], "meaning": "行为类型(1浏览,2收藏,3加购,4购买)"},
+    {"field": "item_category", "classification": "属性类/类别标签", "grading": "第1级/公开", "samples": ["2901", "7393", "1083"], "meaning": "商品类目ID"},
+    {"field": "time", "classification": "状态类/时间标记", "grading": "第1级/公开", "samples": ["2014-12-08 15", "2014-12-15 22"], "meaning": "行为发生时间"}
+  ]
+}

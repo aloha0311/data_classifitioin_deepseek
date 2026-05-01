@@ -1,0 +1,12 @@
+{
+  "filename": "商城客户细分数据_extra_test.csv",
+  "industry": "商业",
+  "total_fields": 5,
+  "annotations": [
+    {"field": "CustomerID", "classification": "ID类/主键ID", "grading": "第1级/公开", "samples": ["96", "16", "31"], "meaning": "客户唯一标识ID"},
+    {"field": "Gender", "classification": "身份类/人口统计", "grading": "第2级/内部", "samples": ["Male", "Female"], "meaning": "性别"},
+    {"field": "Age", "classification": "度量类/计量数值", "grading": "第2级/内部", "samples": ["24", "22", "60"], "meaning": "年龄"},
+    {"field": "Annual Income (k$)", "classification": "度量类/计量数值", "grading": "第3级/敏感", "samples": ["60", "20", "30"], "meaning": "年收入(千美元)"},
+    {"field": "Spending Score (1-100)", "classification": "度量类/计量数值", "grading": "第2级/内部", "samples": ["52", "79", "4"], "meaning": "消费评分(1-100)"}
+  ]
+}

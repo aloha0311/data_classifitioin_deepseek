@@ -1,0 +1,1283 @@
+{
+  "evaluation_date": "2026-05-02T00:09:23.438647",
+  "test_samples": 58,
+  "base_model_metrics": {
+    "model_name": "DeepSeek-7B-Base",
+    "num_samples": 58,
+    "elapsed_time": 57.13943266868591,
+    "time_per_sample": 0.9851626322187227,
+    "accuracy": 0.0,
+    "precision_macro": 0.0,
+    "recall_macro": 0.0,
+    "f1_macro": 0.0,
+    "precision_weighted": 0.0,
+    "recall_weighted": 0.0,
+    "f1_weighted": 0.0
+  },
+  "finetuned_model_metrics": {
+    "model_name": "DeepSeek-7B-LoRA",
+    "num_samples": 58,
+    "elapsed_time": 91.46382570266724,
+    "time_per_sample": 1.5769625121149524,
+    "accuracy": 0.7413793103448276,
+    "precision_macro": 0.7890109890109891,
+    "recall_macro": 0.7423076923076922,
+    "f1_macro": 0.741025641025641,
+    "precision_weighted": 0.7943349753694581,
+    "recall_weighted": 0.7413793103448276,
+    "f1_weighted": 0.7425287356321838
+  },
+  "improvements": {
+    "accuracy": {
+      "base": 0.0,
+      "finetuned": 0.7413793103448276,
+      "improvement": 0.7413793103448276,
+      "improvement_pct": 0
+    },
+    "precision_macro": {
+      "base": 0.0,
+      "finetuned": 0.7890109890109891,
+      "improvement": 0.7890109890109891,
+      "improvement_pct": 0
+    },
+    "recall_macro": {
+      "base": 0.0,
+      "finetuned": 0.7423076923076922,
+      "improvement": 0.7423076923076922,
+      "improvement_pct": 0
+    },
+    "f1_macro": {
+      "base": 0.0,
+      "finetuned": 0.741025641025641,
+      "improvement": 0.741025641025641,
+      "improvement_pct": 0
+    },
+    "precision_weighted": {
+      "base": 0.0,
+      "finetuned": 0.7943349753694581,
+      "improvement": 0.7943349753694581,
+      "improvement_pct": 0
+    },
+    "recall_weighted": {
+      "base": 0.0,
+      "finetuned": 0.7413793103448276,
+      "improvement": 0.7413793103448276,
+      "improvement_pct": 0
+    },
+    "f1_weighted": {
+      "base": 0.0,
+      "finetuned": 0.7425287356321838,
+      "improvement": 0.7425287356321838,
+      "improvement_pct": 0
+    }
+  },
+  "industry_comparison": {
+    "base": {
+      "政务": {
+        "correct": 0,
+        "total": 9,
+        "accuracy": 0.0
+      },
+      "金融/保险": {
+        "correct": 0,
+        "total": 13,
+        "accuracy": 0.0
+      },
+      "商业": {
+        "correct": 0,
+        "total": 9,
+        "accuracy": 0.0
+      },
+      "教育": {
+        "correct": 0,
+        "total": 6,
+        "accuracy": 0.0
+      },
+      "医疗": {
+        "correct": 0,
+        "total": 12,
+        "accuracy": 0.0
+      },
+      "工业": {
+        "correct": 0,
+        "total": 6,
+        "accuracy": 0.0
+      },
+      "金融": {
+        "correct": 0,
+        "total": 3,
+        "accuracy": 0.0
+      }
+    },
+    "finetuned": {
+      "政务": {
+        "correct": 9,
+        "total": 9,
+        "accuracy": 1.0
+      },
+      "金融/保险": {
+        "correct": 8,
+        "total": 13,
+        "accuracy": 0.6153846153846154
+      },
+      "商业": {
+        "correct": 6,
+        "total": 9,
+        "accuracy": 0.6666666666666666
+      },
+      "教育": {
+        "correct": 5,
+        "total": 6,
+        "accuracy": 0.8333333333333334
+      },
+      "医疗": {
+        "correct": 9,
+        "total": 12,
+        "accuracy": 0.75
+      },
+      "工业": {
+        "correct": 4,
+        "total": 6,
+        "accuracy": 0.6666666666666666
+      },
+      "金融": {
+        "correct": 2,
+        "total": 3,
+        "accuracy": 0.6666666666666666
+      }
+    }
+  },
+  "category_stats": {
+    "ID类/主键ID，第1级/公开": {
+      "base": {
+        "correct": 0,
+        "total": 2
+      },
+      "finetuned": {
+        "correct": 1,
+        "total": 2
+      }
+    },
+    "属性类/名称标题，第1级/公开": {
+      "base": {
+        "correct": 0,
+        "total": 1
+      },
+      "finetuned": {
+        "correct": 1,
+        "total": 1
+      }
+    },
+    "属性类/名称标题，第2级/内部": {
+      "base": {
+        "correct": 0,
+        "total": 3
+      },
+      "finetuned": {
+        "correct": 3,
+        "total": 3
+      }
+    },
+    "属性类/名称标题，第3级/敏感": {
+      "base": {
+        "correct": 0,
+        "total": 1
+      },
+      "finetuned": {
+        "correct": 1,
+        "total": 1
+      }
+    },
+    "属性类/地址位置，第3级/敏感": {
+      "base": {
+        "correct": 0,
+        "total": 1
+      },
+      "finetuned": {
+        "correct": 1,
+        "total": 1
+      }
+    },
+    "属性类/描述文本，第2级/内部": {
+      "base": {
+        "correct": 0,
+        "total": 2
+      },
+      "finetuned": {
+        "correct": 2,
+        "total": 2
+      }
+    },
+    "属性类/类别标签，第1级/公开": {
+      "base": {
+        "correct": 0,
+        "total": 4
+      },
+      "finetuned": {
+        "correct": 3,
+        "total": 4
+      }
+    },
+    "属性类/类别标签，第2级/内部": {
+      "base": {
+        "correct": 0,
+        "total": 2
+      },
+      "finetuned": {
+        "correct": 1,
+        "total": 2
+      }
+    },
+    "属性类/类别标签，第3级/敏感": {
+      "base": {
+        "correct": 0,
+        "total": 1
+      },
+      "finetuned": {
+        "correct": 1,
+        "total": 1
+      }
+    },
+    "度量类/时间度量，第1级/公开": {
+      "base": {
+        "correct": 0,
+        "total": 1
+      },
+      "finetuned": {
+        "correct": 1,
+        "total": 1
+      }
+    },
+    "度量类/比率比例，第1级/公开": {
+      "base": {
+        "correct": 0,
+        "total": 1
+      },
+      "finetuned": {
+        "correct": 0,
+        "total": 1
+      }
+    },
+    "度量类/计数统计，第1级/公开": {
+      "base": {
+        "correct": 0,
+        "total": 3
+      },
+      "finetuned": {
+        "correct": 2,
+        "total": 3
+      }
+    },
+    "度量类/计量数值，第1级/公开": {
+      "base": {
+        "correct": 0,
+        "total": 8
+      },
+      "finetuned": {
+        "correct": 6,
+        "total": 8
+      }
+    },
+    "度量类/计量数值，第2级/内部": {
+      "base": {
+        "correct": 0,
+        "total": 2
+      },
+      "finetuned": {
+        "correct": 1,
+        "total": 2
+      }
+    },
+    "度量类/计量数值，第3级/敏感": {
+      "base": {
+        "correct": 0,
+        "total": 1
+      },
+      "finetuned": {
+        "correct": 1,
+        "total": 1
+      }
+    },
+    "度量类/计量数值，第4级/机密": {
+      "base": {
+        "correct": 0,
+        "total": 2
+      },
+      "finetuned": {
+        "correct": 2,
+        "total": 2
+      }
+    },
+    "状态类/二元标志，第1级/公开": {
+      "base": {
+        "correct": 0,
+        "total": 2
+      },
+      "finetuned": {
+        "correct": 2,
+        "total": 2
+      }
+    },
+    "状态类/时间标记，第1级/公开": {
+      "base": {
+        "correct": 0,
+        "total": 2
+      },
+      "finetuned": {
+        "correct": 1,
+        "total": 2
+      }
+    },
+    "结构类/产品代码，第1级/公开": {
+      "base": {
+        "correct": 0,
+        "total": 1
+      },
+      "finetuned": {
+        "correct": 1,
+        "total": 1
+      }
+    },
+    "结构类/企业代码，第1级/公开": {
+      "base": {
+        "correct": 0,
+        "total": 2
+      },
+      "finetuned": {
+        "correct": 0,
+        "total": 2
+      }
+    },
+    "结构类/分类代码，第2级/内部": {
+      "base": {
+        "correct": 0,
+        "total": 3
+      },
+      "finetuned": {
+        "correct": 1,
+        "total": 3
+      }
+    },
+    "结构类/分类代码，第3级/敏感": {
+      "base": {
+        "correct": 0,
+        "total": 1
+      },
+      "finetuned": {
+        "correct": 1,
+        "total": 1
+      }
+    },
+    "结构类/标准代码，第1级/公开": {
+      "base": {
+        "correct": 0,
+        "total": 1
+      },
+      "finetuned": {
+        "correct": 0,
+        "total": 1
+      }
+    },
+    "身份类/人口统计，第2级/内部": {
+      "base": {
+        "correct": 0,
+        "total": 5
+      },
+      "finetuned": {
+        "correct": 4,
+        "total": 5
+      }
+    },
+    "身份类/人口统计，第3级/敏感": {
+      "base": {
+        "correct": 0,
+        "total": 1
+      },
+      "finetuned": {
+        "correct": 1,
+        "total": 1
+      }
+    },
+    "身份类/联系方式，第4级/机密": {
+      "base": {
+        "correct": 0,
+        "total": 5
+      },
+      "finetuned": {
+        "correct": 5,
+        "total": 5
+      }
+    }
+  },
+  "error_analysis": {
+    "base": {
+      "total_errors": 58,
+      "error_rate": 1.0,
+      "top_errors": [
+        [
+          [
+            "属性类/类别标签，第1级/公开",
+            "扩展类/扩展代码，第4级/机密"
+          ],
+          4
+        ],
+        [
+          [
+            "度量类/计量数值，第1级/公开",
+            "扩展类/扩展代码，第4级/机密"
+          ],
+          4
+        ],
+        [
+          [
+            "度量类/计数统计，第1级/公开",
+            "扩展类/扩展代码，第4级/机密"
+          ],
+          3
+        ],
+        [
+          [
+            "结构类/分类代码，第2级/内部",
+            "扩展类/扩展代码，第4级/机密"
+          ],
+          3
+        ],
+        [
+          [
+            "状态类/二元标志，第1级/公开",
+            "扩展类/扩展代码，第4级/机密"
+          ],
+          2
+        ],
+        [
+          [
+            "身份类/人口统计，第2级/内部",
+            "属性类/主键ID，第4级/机密"
+          ],
+          2
+        ],
+        [
+          [
+            "身份类/人口统计，第2级/内部",
+            "扩展类/扩展代码，第4级/机密"
+          ],
+          2
+        ],
+        [
+          [
+            "度量类/计量数值，第1级/公开",
+            "属性类/ID，第4级/机密"
+          ],
+          2
+        ],
+        [
+          [
+            "身份类/联系方式，第4级/机密",
+            "属性类/主键ID，第4级/机密"
+          ],
+          2
+        ],
+        [
+          [
+            "身份类/联系方式，第4级/机密",
+            "扩展类/扩展代码，第4级/机密"
+          ],
+          2
+        ]
+      ],
+      "errors_by_industry": {
+        "政务": 9,
+        "金融/保险": 13,
+        "商业": 9,
+        "教育": 6,
+        "医疗": 12,
+        "工业": 6,
+        "金融": 3
+      }
+    },
+    "finetuned": {
+      "total_errors": 15,
+      "error_rate": 0.25862068965517243,
+      "top_errors": [
+        [
+          [
+            "结构类/分类代码，第2级/内部",
+            "身份类/联系方式，第4级/机密"
+          ],
+          2
+        ],
+        [
+          [
+            "度量类/计数统计，第1级/公开",
+            "度量类/名称标题，第4级/机密"
+          ],
+          1
+        ],
+        [
+          [
+            "度量类/比率比例，第1级/公开",
+            "度量类/计量数值，第1级/公开"
+          ],
+          1
+        ],
+        [
+          [
+            "度量类/计量数值，第1级/公开",
+            "状态类/二元标志，第1级/公开"
+          ],
+          1
+        ],
+        [
+          [
+            "属性类/类别标签，第1级/公开",
+            "状态类/二元标志，第1级/公开"
+          ],
+          1
+        ],
+        [
+          [
+            "度量类/计量数值，第1级/公开",
+            "度量类/名称标题，第4级/机密"
+          ],
+          1
+        ],
+        [
+          [
+            "身份类/人口统计，第2级/内部",
+            "身份类/时间标记，第4级/机密"
+          ],
+          1
+        ],
+        [
+          [
+            "ID类/主键ID，第1级/公开",
+            "结构类/企业代码，第1级/公开"
+          ],
+          1
+        ],
+        [
+          [
+            "属性类/类别标签，第2级/内部",
+            "属性类/类别标签，第1级/公开"
+          ],
+          1
+        ],
+        [
+          [
+            "度量类/计量数值，第2级/内部",
+            "度量类/计量数值，第1级/公开"
+          ],
+          1
+        ]
+      ],
+      "errors_by_industry": {
+        "金融/保险": 5,
+        "教育": 1,
+        "工业": 2,
+        "商业": 3,
+        "金融": 1,
+        "医疗": 3
+      }
+    }
+  },
+  "base_results": [
+    {
+      "expected": "属性类/描述文本，第2级/内部",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "政务"
+    },
+    {
+      "expected": "状态类/二元标志，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "身份类/人口统计，第2级/内部",
+      "predicted": "属性类/主键ID，第4级/机密",
+      "correct": false,
+      "industry": "商业"
+    },
+    {
+      "expected": "身份类/人口统计，第2级/内部",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "教育"
+    },
+    {
+      "expected": "度量类/计数统计，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "度量类/比率比例，第1级/公开",
+      "predicted": "度量类/计量数值，第4级/机密",
+      "correct": false,
+      "industry": "教育"
+    },
+    {
+      "expected": "身份类/人口统计，第2级/内部",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "医疗"
+    },
+    {
+      "expected": "度量类/计数统计，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "身份类/人口统计，第2级/内部",
+      "predicted": "属性类/主键ID，第4级/机密",
+      "correct": false,
+      "industry": "医疗"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "属性类/ID，第4级/机密",
+      "correct": false,
+      "industry": "教育"
+    },
+    {
+      "expected": "属性类/类别标签，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "商业"
+    },
+    {
+      "expected": "度量类/计量数值，第4级/机密",
+      "predicted": "属性类/ID，第4级/机密",
+      "correct": false,
+      "industry": "政务"
+    },
+    {
+      "expected": "属性类/地址位置，第3级/敏感",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "结构类/分类代码，第2级/内部",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "工业"
+    },
+    {
+      "expected": "属性类/类别标签，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "状态类/二元标志，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "度量类/时间度量，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "医疗"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "身份类/联系方式，第4级/机密",
+      "predicted": "属性类/主键ID，第4级/机密",
+      "correct": false,
+      "industry": "金融"
+    },
+    {
+      "expected": "身份类/联系方式，第4级/机密",
+      "predicted": "属性类/ID，第4级/机密",
+      "correct": false,
+      "industry": "政务"
+    },
+    {
+      "expected": "属性类/类别标签，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "ID类/主键ID，第1级/公开",
+      "predicted": "属性类/ID，第4级/机密",
+      "correct": false,
+      "industry": "商业"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "工业"
+    },
+    {
+      "expected": "度量类/计量数值，第3级/敏感",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "医疗"
+    },
+    {
+      "expected": "属性类/类别标签，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "度量类/计量数值，第4级/机密",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "金融"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "工业"
+    },
+    {
+      "expected": "身份类/联系方式，第4级/机密",
+      "predicted": "属性类/主键ID，第4级/机密",
+      "correct": false,
+      "industry": "政务"
+    },
+    {
+      "expected": "度量类/计数统计，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "属性类/类别标签，第2级/内部",
+      "predicted": "属性类/ID，第4级/机密",
+      "correct": false,
+      "industry": "医疗"
+    },
+    {
+      "expected": "身份类/人口统计，第2级/内部",
+      "predicted": "身份类/人口统计，第4级/机密",
+      "correct": false,
+      "industry": "商业"
+    },
+    {
+      "expected": "属性类/名称标题，第3级/敏感",
+      "predicted": "属性类/主键ID，第4级/机密",
+      "correct": false,
+      "industry": "商业"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "身份类/联系方式，第4级/机密",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "教育"
+    },
+    {
+      "expected": "属性类/名称标题，第2级/内部",
+      "predicted": "属性类/主键ID，第4级/机密",
+      "correct": false,
+      "industry": "医疗"
+    },
+    {
+      "expected": "ID类/主键ID，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "工业"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "属性类/ID，第4级/机密",
+      "correct": false,
+      "industry": "教育"
+    },
+    {
+      "expected": "身份类/联系方式，第4级/机密",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "政务"
+    },
+    {
+      "expected": "属性类/名称标题，第2级/内部",
+      "predicted": "属性类/ID，第4级/机密",
+      "correct": false,
+      "industry": "工业"
+    },
+    {
+      "expected": "属性类/类别标签，第2级/内部",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "金融"
+    },
+    {
+      "expected": "度量类/计量数值，第2级/内部",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "商业"
+    },
+    {
+      "expected": "结构类/企业代码，第1级/公开",
+      "predicted": "属性类/主键ID，第4级/机密",
+      "correct": false,
+      "industry": "商业"
+    },
+    {
+      "expected": "状态类/时间标记，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "医疗"
+    },
+    {
+      "expected": "属性类/类别标签，第3级/敏感",
+      "predicted": "属性类/ID，第4级/机密",
+      "correct": false,
+      "industry": "政务"
+    },
+    {
+      "expected": "结构类/分类代码，第3级/敏感",
+      "predicted": "身份类/时间标记，第4级/机密",
+      "correct": false,
+      "industry": "政务"
+    },
+    {
+      "expected": "状态类/时间标记，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "结构类/分类代码，第2级/内部",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "医疗"
+    },
+    {
+      "expected": "结构类/企业代码，第1级/公开",
+      "predicted": "属性类/主键ID，第4级/机密",
+      "correct": false,
+      "industry": "医疗"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "ID类/ID，第4级/机密",
+      "correct": false,
+      "industry": "教育"
+    },
+    {
+      "expected": "身份类/人口统计，第3级/敏感",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "医疗"
+    },
+    {
+      "expected": "结构类/分类代码，第2级/内部",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "医疗"
+    },
+    {
+      "expected": "属性类/名称标题，第1级/公开",
+      "predicted": "属性类/主键ID，第4级/机密",
+      "correct": false,
+      "industry": "工业"
+    },
+    {
+      "expected": "结构类/产品代码，第1级/公开",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "商业"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "度量类/计量数值，第4级/机密",
+      "correct": false,
+      "industry": "商业"
+    },
+    {
+      "expected": "结构类/标准代码，第1级/公开",
+      "predicted": "属性类/ID，第4级/机密",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "属性类/名称标题，第2级/内部",
+      "predicted": "属性类/主键ID，第4级/机密",
+      "correct": false,
+      "industry": "政务"
+    },
+    {
+      "expected": "度量类/计量数值，第2级/内部",
+      "predicted": "扩展类/扩展代码，第4级/机密",
+      "correct": false,
+      "industry": "医疗"
+    },
+    {
+      "expected": "属性类/描述文本，第2级/内部",
+      "predicted": "属性类/描述文本，第4级/机密",
+      "correct": false,
+      "industry": "政务"
+    }
+  ],
+  "finetuned_results": [
+    {
+      "expected": "属性类/描述文本，第2级/内部",
+      "predicted": "属性类/描述文本，第2级/内部",
+      "correct": true,
+      "industry": "政务"
+    },
+    {
+      "expected": "状态类/二元标志，第1级/公开",
+      "predicted": "状态类/二元标志，第1级/公开",
+      "correct": true,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "身份类/人口统计，第2级/内部",
+      "predicted": "身份类/人口统计，第2级/内部",
+      "correct": true,
+      "industry": "商业"
+    },
+    {
+      "expected": "身份类/人口统计，第2级/内部",
+      "predicted": "身份类/人口统计，第2级/内部",
+      "correct": true,
+      "industry": "教育"
+    },
+    {
+      "expected": "度量类/计数统计，第1级/公开",
+      "predicted": "度量类/名称标题，第4级/机密",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "度量类/比率比例，第1级/公开",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": false,
+      "industry": "教育"
+    },
+    {
+      "expected": "身份类/人口统计，第2级/内部",
+      "predicted": "身份类/人口统计，第2级/内部",
+      "correct": true,
+      "industry": "医疗"
+    },
+    {
+      "expected": "度量类/计数统计，第1级/公开",
+      "predicted": "度量类/计数统计，第1级/公开",
+      "correct": true,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "身份类/人口统计，第2级/内部",
+      "predicted": "身份类/人口统计，第2级/内部",
+      "correct": true,
+      "industry": "医疗"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": true,
+      "industry": "教育"
+    },
+    {
+      "expected": "属性类/类别标签，第1级/公开",
+      "predicted": "属性类/类别标签，第1级/公开",
+      "correct": true,
+      "industry": "商业"
+    },
+    {
+      "expected": "度量类/计量数值，第4级/机密",
+      "predicted": "度量类/计量数值，第4级/机密",
+      "correct": true,
+      "industry": "政务"
+    },
+    {
+      "expected": "属性类/地址位置，第3级/敏感",
+      "predicted": "属性类/地址位置，第3级/敏感",
+      "correct": true,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "结构类/分类代码，第2级/内部",
+      "predicted": "结构类/分类代码，第2级/内部",
+      "correct": true,
+      "industry": "工业"
+    },
+    {
+      "expected": "属性类/类别标签，第1级/公开",
+      "predicted": "属性类/类别标签，第1级/公开",
+      "correct": true,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "状态类/二元标志，第1级/公开",
+      "predicted": "状态类/二元标志，第1级/公开",
+      "correct": true,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "度量类/时间度量，第1级/公开",
+      "predicted": "度量类/时间度量，第1级/公开",
+      "correct": true,
+      "industry": "医疗"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "状态类/二元标志，第1级/公开",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "身份类/联系方式，第4级/机密",
+      "predicted": "身份类/联系方式，第4级/机密",
+      "correct": true,
+      "industry": "金融"
+    },
+    {
+      "expected": "身份类/联系方式，第4级/机密",
+      "predicted": "身份类/联系方式，第4级/机密",
+      "correct": true,
+      "industry": "政务"
+    },
+    {
+      "expected": "属性类/类别标签，第1级/公开",
+      "predicted": "属性类/类别标签，第1级/公开",
+      "correct": true,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "ID类/主键ID，第1级/公开",
+      "predicted": "ID类/主键ID，第1级/公开",
+      "correct": true,
+      "industry": "商业"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": true,
+      "industry": "工业"
+    },
+    {
+      "expected": "度量类/计量数值，第3级/敏感",
+      "predicted": "度量类/计量数值，第3级/敏感",
+      "correct": true,
+      "industry": "医疗"
+    },
+    {
+      "expected": "属性类/类别标签，第1级/公开",
+      "predicted": "状态类/二元标志，第1级/公开",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "度量类/计量数值，第4级/机密",
+      "predicted": "度量类/计量数值，第4级/机密",
+      "correct": true,
+      "industry": "金融"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "度量类/名称标题，第4级/机密",
+      "correct": false,
+      "industry": "工业"
+    },
+    {
+      "expected": "身份类/联系方式，第4级/机密",
+      "predicted": "身份类/联系方式，第4级/机密",
+      "correct": true,
+      "industry": "政务"
+    },
+    {
+      "expected": "度量类/计数统计，第1级/公开",
+      "predicted": "度量类/计数统计，第1级/公开",
+      "correct": true,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "属性类/类别标签，第2级/内部",
+      "predicted": "属性类/类别标签，第2级/内部",
+      "correct": true,
+      "industry": "医疗"
+    },
+    {
+      "expected": "身份类/人口统计，第2级/内部",
+      "predicted": "身份类/时间标记，第4级/机密",
+      "correct": false,
+      "industry": "商业"
+    },
+    {
+      "expected": "属性类/名称标题，第3级/敏感",
+      "predicted": "属性类/名称标题，第3级/敏感",
+      "correct": true,
+      "industry": "商业"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": true,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "身份类/联系方式，第4级/机密",
+      "predicted": "身份类/联系方式，第4级/机密",
+      "correct": true,
+      "industry": "教育"
+    },
+    {
+      "expected": "属性类/名称标题，第2级/内部",
+      "predicted": "属性类/名称标题，第2级/内部",
+      "correct": true,
+      "industry": "医疗"
+    },
+    {
+      "expected": "ID类/主键ID，第1级/公开",
+      "predicted": "结构类/企业代码，第1级/公开",
+      "correct": false,
+      "industry": "工业"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": true,
+      "industry": "教育"
+    },
+    {
+      "expected": "身份类/联系方式，第4级/机密",
+      "predicted": "身份类/联系方式，第4级/机密",
+      "correct": true,
+      "industry": "政务"
+    },
+    {
+      "expected": "属性类/名称标题，第2级/内部",
+      "predicted": "属性类/名称标题，第2级/内部",
+      "correct": true,
+      "industry": "工业"
+    },
+    {
+      "expected": "属性类/类别标签，第2级/内部",
+      "predicted": "属性类/类别标签，第1级/公开",
+      "correct": false,
+      "industry": "金融"
+    },
+    {
+      "expected": "度量类/计量数值，第2级/内部",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": false,
+      "industry": "商业"
+    },
+    {
+      "expected": "结构类/企业代码，第1级/公开",
+      "predicted": "ID类/主键ID，第1级/公开",
+      "correct": false,
+      "industry": "商业"
+    },
+    {
+      "expected": "状态类/时间标记，第1级/公开",
+      "predicted": "状态类/时间标记，第1级/公开",
+      "correct": true,
+      "industry": "医疗"
+    },
+    {
+      "expected": "属性类/类别标签，第3级/敏感",
+      "predicted": "属性类/类别标签，第3级/敏感",
+      "correct": true,
+      "industry": "政务"
+    },
+    {
+      "expected": "结构类/分类代码，第3级/敏感",
+      "predicted": "结构类/分类代码，第3级/敏感",
+      "correct": true,
+      "industry": "政务"
+    },
+    {
+      "expected": "状态类/时间标记，第1级/公开",
+      "predicted": "度量类/时间度量，第1级/公开",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "结构类/分类代码，第2级/内部",
+      "predicted": "身份类/联系方式，第4级/机密",
+      "correct": false,
+      "industry": "医疗"
+    },
+    {
+      "expected": "结构类/企业代码，第1级/公开",
+      "predicted": "身份类/人口统计，第2级/内部",
+      "correct": false,
+      "industry": "医疗"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": true,
+      "industry": "教育"
+    },
+    {
+      "expected": "身份类/人口统计，第3级/敏感",
+      "predicted": "身份类/人口统计，第3级/敏感",
+      "correct": true,
+      "industry": "医疗"
+    },
+    {
+      "expected": "结构类/分类代码，第2级/内部",
+      "predicted": "身份类/联系方式，第4级/机密",
+      "correct": false,
+      "industry": "医疗"
+    },
+    {
+      "expected": "属性类/名称标题，第1级/公开",
+      "predicted": "属性类/名称标题，第1级/公开",
+      "correct": true,
+      "industry": "工业"
+    },
+    {
+      "expected": "结构类/产品代码，第1级/公开",
+      "predicted": "结构类/产品代码，第1级/公开",
+      "correct": true,
+      "industry": "商业"
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": true,
+      "industry": "商业"
+    },
+    {
+      "expected": "结构类/标准代码，第1级/公开",
+      "predicted": "结构类/分类代码，第1级/公开",
+      "correct": false,
+      "industry": "金融/保险"
+    },
+    {
+      "expected": "属性类/名称标题，第2级/内部",
+      "predicted": "属性类/名称标题，第2级/内部",
+      "correct": true,
+      "industry": "政务"
+    },
+    {
+      "expected": "度量类/计量数值，第2级/内部",
+      "predicted": "度量类/计量数值，第2级/内部",
+      "correct": true,
+      "industry": "医疗"
+    },
+    {
+      "expected": "属性类/描述文本，第2级/内部",
+      "predicted": "属性类/描述文本，第2级/内部",
+      "correct": true,
+      "industry": "政务"
+    }
+  ]
+}

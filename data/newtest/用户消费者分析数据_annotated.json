@@ -1,0 +1,27 @@
+{
+  "filename": "用户消费者分析数据_extra_test.csv",
+  "industry": "商业",
+  "total_fields": 20,
+  "annotations": [
+    {"field": "customer_id", "classification": "ID类/主键ID", "grading": "第1级/公开", "samples": ["19254", "21817"], "meaning": "客户唯一标识ID"},
+    {"field": "product_id", "classification": "结构类/产品代码", "grading": "第1级/公开", "samples": ["372400", "260041"], "meaning": "商品ID"},
+    {"field": "action_date", "classification": "状态类/时间标记", "grading": "第1级/公开", "samples": ["2018-02-20 16:35:00", "2018-04-06 14:12:00"], "meaning": "行为发生时间"},
+    {"field": "action_id", "classification": "ID类/主键ID", "grading": "第1级/公开", "samples": ["1310785", "11078746"], "meaning": "行为记录ID"},
+    {"field": "type", "classification": "状态类/状态枚举", "grading": "第1级/公开", "samples": ["PageView", "SavedCart"], "meaning": "行为类型(PageView浏览, SavedCart加购)"},
+    {"field": "age_range", "classification": "身份类/人口统计", "grading": "第3级/敏感", "samples": ["6.0", "2.0", "1.0"], "meaning": "年龄段(1-6)"},
+    {"field": "gender", "classification": "身份类/人口统计", "grading": "第2级/内部", "samples": ["M", "W"], "meaning": "性别(M男, W女)"},
+    {"field": "customer_register_date", "classification": "状态类/时间标记", "grading": "第1级/公开", "samples": ["2012-05-17", "2017-02-20"], "meaning": "客户注册日期"},
+    {"field": "customer_level", "classification": "属性类/类别标签", "grading": "第1级/公开", "samples": ["7", "6", "5"], "meaning": "客户等级(1-7)"},
+    {"field": "city_level", "classification": "属性类/类别标签", "grading": "第1级/公开", "samples": ["3.0", "5.0", "1.0"], "meaning": "城市等级(1-5)"},
+    {"field": "brand", "classification": "属性类/名称标题", "grading": "第1级/公开", "samples": ["Other", "Sumsung", "Apple", "Huawei"], "meaning": "品牌"},
+    {"field": "shop_id", "classification": "结构类/企业代码", "grading": "第1级/公开", "samples": ["154", "7082", "8039"], "meaning": "店铺ID"},
+    {"field": "category", "classification": "属性类/类别标签", "grading": "第1级/公开", "samples": ["Face Cream", "Phone", "Coat"], "meaning": "商品类目"},
+    {"field": "product_market_date", "classification": "状态类/时间标记", "grading": "第1级/公开", "samples": ["2016-11-17", "2017-12-11"], "meaning": "商品上市日期"},
+    {"field": "vender_id", "classification": "结构类/企业代码", "grading": "第1级/公开", "samples": ["8715", "3666"], "meaning": "供应商ID"},
+    {"field": "fans_number", "classification": "度量类/计数统计", "grading": "第1级/公开", "samples": ["3299", "0", "36143"], "meaning": "店铺粉丝数"},
+    {"field": "vip_number", "classification": "度量类/计数统计", "grading": "第1级/公开", "samples": ["16730", "0", "179114"], "meaning": "会员数量"},
+    {"field": "shop_register_date", "classification": "状态类/时间标记", "grading": "第1级/公开", "samples": ["2016-09-22", ""], "meaning": "店铺注册日期"},
+    {"field": "shop_category", "classification": "属性类/类别标签", "grading": "第1级/公开", "samples": ["Beauty Makeup", "Electronics", "Clothes"], "meaning": "店铺类目"},
+    {"field": "shop_score", "classification": "度量类/计量数值", "grading": "第1级/公开", "samples": ["9.405734", "0.0", "9.620338"], "meaning": "店铺评分"}
+  ]
+}

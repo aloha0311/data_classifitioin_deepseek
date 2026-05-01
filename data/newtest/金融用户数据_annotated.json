@@ -1,0 +1,27 @@
+{
+  "filename": "金融用户数据_20字段_25行.csv",
+  "industry": "金融",
+  "total_fields": 20,
+  "annotations": [
+    {"field": "user_id", "classification": "ID类/主键ID", "grading": "第1级/公开", "samples": ["U000001", "U000002", "U000003"], "meaning": "用户唯一标识ID"},
+    {"field": "username", "classification": "属性类/名称标题", "grading": "第2级/内部", "samples": ["user_1", "user_2", "user_3"], "meaning": "用户名"},
+    {"field": "real_name", "classification": "属性类/名称标题", "grading": "第3级/敏感", "samples": ["张三", "李四", "王五", ""], "meaning": "真实姓名"},
+    {"field": "id_card", "classification": "身份类/联系方式", "grading": "第4级/机密", "samples": ["520486198706121802", "483111197205032682", ""], "meaning": "身份证号"},
+    {"field": "phone", "classification": "身份类/联系方式", "grading": "第4级/机密", "samples": ["13844395934", "13887952127", "13874734468"], "meaning": "手机号码"},
+    {"field": "email", "classification": "身份类/联系方式", "grading": "第4级/机密", "samples": ["user1@example.com", "user2@example.com", "user24@example.com"], "meaning": "电子邮箱"},
+    {"field": "bank_card", "classification": "身份类/联系方式", "grading": "第4级/机密", "samples": ["469171751348127528", "431673864161504255", ""], "meaning": "银行卡号"},
+    {"field": "account_balance", "classification": "度量类/计量数值", "grading": "第3级/敏感", "samples": ["28595.89", "73044.92", "3225.35"], "meaning": "账户余额"},
+    {"field": "credit_score", "classification": "度量类/计量数值", "grading": "第3级/敏感", "samples": ["309", "431", "333"], "meaning": "信用评分"},
+    {"field": "loan_amount", "classification": "度量类/计量数值", "grading": "第3级/敏感", "samples": ["43195.05", "298565.66", ""], "meaning": "贷款金额"},
+    {"field": "monthly_income", "classification": "度量类/计量数值", "grading": "第4级/机密", "samples": ["18532.21", "18639.64", "33126.73"], "meaning": "月收入"},
+    {"field": "department", "classification": "属性类/类别标签", "grading": "第1级/公开", "samples": ["财", "务", "部", ""], "meaning": "部门"},
+    {"field": "employee_level", "classification": "属性类/类别标签", "grading": "第1级/公开", "samples": ["3", "2", "6"], "meaning": "职级"},
+    {"field": "hire_date", "classification": "状态类/时间标记", "grading": "第1级/公开", "samples": ["2024-10-08", "2025-12-18", "2020-09-13"], "meaning": "入职日期"},
+    {"field": "is_active", "classification": "状态类/二元标志", "grading": "第1级/公开", "samples": ["否", ""], "meaning": "是否在职"},
+    {"field": "risk_level", "classification": "属性类/类别标签", "grading": "第2级/内部", "samples": ["低", "险", ""], "meaning": "风险等级"},
+    {"field": "last_login_ip", "classification": "结构类/分类代码", "grading": "第2级/内部", "samples": ["192.168.161.203", "192.168.229.37"], "meaning": "最近登录IP"},
+    {"field": "password_hash", "classification": "扩展类/扩展代码", "grading": "第4级/机密", "samples": ["*", "*", "*"], "meaning": "密码哈希值"},
+    {"field": "transaction_count", "classification": "度量类/计数统计", "grading": "第2级/内部", "samples": ["432", "996", "939"], "meaning": "交易次数"},
+    {"field": "avg_transaction_amount", "classification": "度量类/计量数值", "grading": "第3级/敏感", "samples": ["508.58", "2673.71", "515.95"], "meaning": "平均交易金额"}
+  ]
+}

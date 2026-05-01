@@ -1,0 +1,32 @@
+{
+  "filename": "学生成绩数据_25字段_18行.csv",
+  "industry": "教育",
+  "total_fields": 25,
+  "annotations": [
+    {"field": "student_id", "classification": "ID类/主键ID", "grading": "第1级/公开", "samples": ["S00000001", "S00000002"], "meaning": "学生唯一标识ID"},
+    {"field": "student_name", "classification": "属性类/名称标题", "grading": "第3级/敏感", "samples": ["学生1", "学生2"], "meaning": "学生姓名"},
+    {"field": "gender", "classification": "身份类/人口统计", "grading": "第2级/内部", "samples": ["男", "女"], "meaning": "性别"},
+    {"field": "birth_date", "classification": "身份类/人口统计", "grading": "第3级/敏感", "samples": ["2011-12-19", "2010-04-12"], "meaning": "出生日期"},
+    {"field": "class_id", "classification": "结构类/企业代码", "grading": "第1级/公开", "samples": ["C003", "C019"], "meaning": "班级编号"},
+    {"field": "class_name", "classification": "属性类/名称标题", "grading": "第1级/公开", "samples": ["班级4班", "班级2班"], "meaning": "班级名称"},
+    {"field": "teacher_id", "classification": "结构类/企业代码", "grading": "第1级/公开", "samples": ["T0028", "T0016"], "meaning": "班主任编号"},
+    {"field": "chinese_score", "classification": "度量类/计量数值", "grading": "第1级/公开", "samples": ["97", "77", "88"], "meaning": "语文成绩"},
+    {"field": "math_score", "classification": "度量类/计量数值", "grading": "第1级/公开", "samples": ["61", "98", "70"], "meaning": "数学成绩"},
+    {"field": "english_score", "classification": "度量类/计量数值", "grading": "第1级/公开", "samples": ["72", "74", "97"], "meaning": "英语成绩"},
+    {"field": "physics_score", "classification": "度量类/计量数值", "grading": "第1级/公开", "samples": ["82", "87", ""], "meaning": "物理成绩"},
+    {"field": "chemistry_score", "classification": "度量类/计量数值", "grading": "第1级/公开", "samples": ["66", "87", ""], "meaning": "化学成绩"},
+    {"field": "history_score", "classification": "度量类/计量数值", "grading": "第1级/公开", "samples": ["85", "91", "88"], "meaning": "历史成绩"},
+    {"field": "geography_score", "classification": "度量类/计量数值", "grading": "第1级/公开", "samples": ["88", "63", "79"], "meaning": "地理成绩"},
+    {"field": "political_score", "classification": "度量类/计量数值", "grading": "第1级/公开", "samples": ["84", "94", "71"], "meaning": "政治成绩"},
+    {"field": "avg_score", "classification": "度量类/计量数值", "grading": "第1级/公开", "samples": ["81.2", "82.8", "82.2"], "meaning": "平均成绩"},
+    {"field": "total_score", "classification": "度量类/计量数值", "grading": "第1级/公开", "samples": ["487", "497", "493"], "meaning": "总成绩"},
+    {"field": "rank", "classification": "度量类/序号排序", "grading": "第1级/公开", "samples": ["1", "2", "3"], "meaning": "排名"},
+    {"field": "attendance_rate", "classification": "度量类/比率比例", "grading": "第1级/公开", "samples": ["87.8", "97.2", "97.0"], "meaning": "出勤率"},
+    {"field": "homework_completion", "classification": "度量类/比率比例", "grading": "第1级/公开", "samples": ["85.3", "88.3", "90.6"], "meaning": "作业完成率"},
+    {"field": "parent_name", "classification": "属性类/名称标题", "grading": "第3级/敏感", "samples": ["家长1", "家长2"], "meaning": "家长姓名"},
+    {"field": "parent_phone", "classification": "身份类/联系方式", "grading": "第4级/机密", "samples": ["1310367292", "1397406192"], "meaning": "家长联系电话"},
+    {"field": "parent_email", "classification": "身份类/联系方式", "grading": "第4级/机密", "samples": ["parent1@email.com", "parent2@email.com"], "meaning": "家长邮箱"},
+    {"field": "scholarship", "classification": "属性类/类别标签", "grading": "第1级/公开", "samples": ["一等奖学金", "无", "三等奖学金"], "meaning": "奖学金等级"},
+    {"field": "discipline_score", "classification": "度量类/计量数值", "grading": "第1级/公开", "samples": ["69", "71", "97"], "meaning": "德育成绩"}
+  ]
+}

@@ -1,0 +1,412 @@
+{
+  "summary": {
+    "total_samples": 58,
+    "correct": 43,
+    "accuracy": 0.7413793103448276,
+    "precision_macro": 0.789,
+    "recall_macro": 0.7423,
+    "f1_macro": 0.741,
+    "precision_weighted": 0.7943,
+    "recall_weighted": 0.7414,
+    "f1_weighted": 0.7425,
+    "timestamp": "2026-05-01T21:43:00.999591"
+  },
+  "category_stats": {
+    "ID类/主键ID，第1级/公开": {
+      "correct": 1,
+      "total": 2
+    },
+    "属性类/名称标题，第1级/公开": {
+      "correct": 1,
+      "total": 1
+    },
+    "属性类/名称标题，第2级/内部": {
+      "correct": 3,
+      "total": 3
+    },
+    "属性类/名称标题，第3级/敏感": {
+      "correct": 1,
+      "total": 1
+    },
+    "属性类/地址位置，第3级/敏感": {
+      "correct": 1,
+      "total": 1
+    },
+    "属性类/描述文本，第2级/内部": {
+      "correct": 2,
+      "total": 2
+    },
+    "属性类/类别标签，第1级/公开": {
+      "correct": 3,
+      "total": 4
+    },
+    "属性类/类别标签，第2级/内部": {
+      "correct": 1,
+      "total": 2
+    },
+    "属性类/类别标签，第3级/敏感": {
+      "correct": 1,
+      "total": 1
+    },
+    "度量类/时间度量，第1级/公开": {
+      "correct": 1,
+      "total": 1
+    },
+    "度量类/比率比例，第1级/公开": {
+      "correct": 0,
+      "total": 1
+    },
+    "度量类/计数统计，第1级/公开": {
+      "correct": 2,
+      "total": 3
+    },
+    "度量类/计量数值，第1级/公开": {
+      "correct": 6,
+      "total": 8
+    },
+    "度量类/计量数值，第2级/内部": {
+      "correct": 1,
+      "total": 2
+    },
+    "度量类/计量数值，第3级/敏感": {
+      "correct": 1,
+      "total": 1
+    },
+    "度量类/计量数值，第4级/机密": {
+      "correct": 2,
+      "total": 2
+    },
+    "状态类/二元标志，第1级/公开": {
+      "correct": 2,
+      "total": 2
+    },
+    "状态类/时间标记，第1级/公开": {
+      "correct": 1,
+      "total": 2
+    },
+    "结构类/产品代码，第1级/公开": {
+      "correct": 1,
+      "total": 1
+    },
+    "结构类/企业代码，第1级/公开": {
+      "correct": 0,
+      "total": 2
+    },
+    "结构类/分类代码，第2级/内部": {
+      "correct": 1,
+      "total": 3
+    },
+    "结构类/分类代码，第3级/敏感": {
+      "correct": 1,
+      "total": 1
+    },
+    "结构类/标准代码，第1级/公开": {
+      "correct": 0,
+      "total": 1
+    },
+    "身份类/人口统计，第2级/内部": {
+      "correct": 4,
+      "total": 5
+    },
+    "身份类/人口统计，第3级/敏感": {
+      "correct": 1,
+      "total": 1
+    },
+    "身份类/联系方式，第4级/机密": {
+      "correct": 5,
+      "total": 5
+    }
+  },
+  "results": [
+    {
+      "expected": "属性类/描述文本，第2级/内部",
+      "predicted": "属性类/描述文本，第2级/内部",
+      "correct": true
+    },
+    {
+      "expected": "状态类/二元标志，第1级/公开",
+      "predicted": "状态类/二元标志，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "身份类/人口统计，第2级/内部",
+      "predicted": "身份类/人口统计，第2级/内部",
+      "correct": true
+    },
+    {
+      "expected": "身份类/人口统计，第2级/内部",
+      "predicted": "身份类/人口统计，第2级/内部",
+      "correct": true
+    },
+    {
+      "expected": "度量类/计数统计，第1级/公开",
+      "predicted": "",
+      "correct": false
+    },
+    {
+      "expected": "度量类/比率比例，第1级/公开",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": false
+    },
+    {
+      "expected": "身份类/人口统计，第2级/内部",
+      "predicted": "身份类/人口统计，第2级/内部",
+      "correct": true
+    },
+    {
+      "expected": "度量类/计数统计，第1级/公开",
+      "predicted": "度量类/计数统计，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "身份类/人口统计，第2级/内部",
+      "predicted": "身份类/人口统计，第2级/内部",
+      "correct": true
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "属性类/类别标签，第1级/公开",
+      "predicted": "属性类/类别标签，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "度量类/计量数值，第4级/机密",
+      "predicted": "度量类/计量数值，第4级/机密",
+      "correct": true
+    },
+    {
+      "expected": "属性类/地址位置，第3级/敏感",
+      "predicted": "属性类/地址位置，第3级/敏感",
+      "correct": true
+    },
+    {
+      "expected": "结构类/分类代码，第2级/内部",
+      "predicted": "结构类/分类代码，第2级/内部",
+      "correct": true
+    },
+    {
+      "expected": "属性类/类别标签，第1级/公开",
+      "predicted": "属性类/类别标签，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "状态类/二元标志，第1级/公开",
+      "predicted": "状态类/二元标志，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "度量类/时间度量，第1级/公开",
+      "predicted": "度量类/时间度量，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "状态类/二元标志，第1级/公开",
+      "correct": false
+    },
+    {
+      "expected": "身份类/联系方式，第4级/机密",
+      "predicted": "身份类/联系方式，第4级/机密",
+      "correct": true
+    },
+    {
+      "expected": "身份类/联系方式，第4级/机密",
+      "predicted": "身份类/联系方式，第4级/机密",
+      "correct": true
+    },
+    {
+      "expected": "属性类/类别标签，第1级/公开",
+      "predicted": "属性类/类别标签，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "ID类/主键ID，第1级/公开",
+      "predicted": "ID类/主键ID，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "度量类/计量数值，第3级/敏感",
+      "predicted": "度量类/计量数值，第3级/敏感",
+      "correct": true
+    },
+    {
+      "expected": "属性类/类别标签，第1级/公开",
+      "predicted": "状态类/二元标志，第1级/公开",
+      "correct": false
+    },
+    {
+      "expected": "度量类/计量数值，第4级/机密",
+      "predicted": "度量类/计量数值，第4级/机密",
+      "correct": true
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "",
+      "correct": false
+    },
+    {
+      "expected": "身份类/联系方式，第4级/机密",
+      "predicted": "身份类/联系方式，第4级/机密",
+      "correct": true
+    },
+    {
+      "expected": "度量类/计数统计，第1级/公开",
+      "predicted": "度量类/计数统计，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "属性类/类别标签，第2级/内部",
+      "predicted": "属性类/类别标签，第2级/内部",
+      "correct": true
+    },
+    {
+      "expected": "身份类/人口统计，第2级/内部",
+      "predicted": "",
+      "correct": false
+    },
+    {
+      "expected": "属性类/名称标题，第3级/敏感",
+      "predicted": "属性类/名称标题，第3级/敏感",
+      "correct": true
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "身份类/联系方式，第4级/机密",
+      "predicted": "身份类/联系方式，第4级/机密",
+      "correct": true
+    },
+    {
+      "expected": "属性类/名称标题，第2级/内部",
+      "predicted": "属性类/名称标题，第2级/内部",
+      "correct": true
+    },
+    {
+      "expected": "ID类/主键ID，第1级/公开",
+      "predicted": "结构类/企业代码，第1级/公开",
+      "correct": false
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "身份类/联系方式，第4级/机密",
+      "predicted": "身份类/联系方式，第4级/机密",
+      "correct": true
+    },
+    {
+      "expected": "属性类/名称标题，第2级/内部",
+      "predicted": "属性类/名称标题，第2级/内部",
+      "correct": true
+    },
+    {
+      "expected": "属性类/类别标签，第2级/内部",
+      "predicted": "属性类/类别标签，第1级/公开",
+      "correct": false
+    },
+    {
+      "expected": "度量类/计量数值，第2级/内部",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": false
+    },
+    {
+      "expected": "结构类/企业代码，第1级/公开",
+      "predicted": "ID类/主键ID，第1级/公开",
+      "correct": false
+    },
+    {
+      "expected": "状态类/时间标记，第1级/公开",
+      "predicted": "状态类/时间标记，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "属性类/类别标签，第3级/敏感",
+      "predicted": "属性类/类别标签，第3级/敏感",
+      "correct": true
+    },
+    {
+      "expected": "结构类/分类代码，第3级/敏感",
+      "predicted": "结构类/分类代码，第3级/敏感",
+      "correct": true
+    },
+    {
+      "expected": "状态类/时间标记，第1级/公开",
+      "predicted": "度量类/时间度量，第1级/公开",
+      "correct": false
+    },
+    {
+      "expected": "结构类/分类代码，第2级/内部",
+      "predicted": "身份类/联系方式，第4级/机密",
+      "correct": false
+    },
+    {
+      "expected": "结构类/企业代码，第1级/公开",
+      "predicted": "身份类/人口统计，第2级/内部",
+      "correct": false
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "身份类/人口统计，第3级/敏感",
+      "predicted": "身份类/人口统计，第3级/敏感",
+      "correct": true
+    },
+    {
+      "expected": "结构类/分类代码，第2级/内部",
+      "predicted": "身份类/联系方式，第4级/机密",
+      "correct": false
+    },
+    {
+      "expected": "属性类/名称标题，第1级/公开",
+      "predicted": "属性类/名称标题，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "结构类/产品代码，第1级/公开",
+      "predicted": "结构类/产品代码，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "度量类/计量数值，第1级/公开",
+      "predicted": "度量类/计量数值，第1级/公开",
+      "correct": true
+    },
+    {
+      "expected": "结构类/标准代码，第1级/公开",
+      "predicted": "结构类/分类代码，第1级/公开",
+      "correct": false
+    },
+    {
+      "expected": "属性类/名称标题，第2级/内部",
+      "predicted": "属性类/名称标题，第2级/内部",
+      "correct": true
+    },
+    {
+      "expected": "度量类/计量数值，第2级/内部",
+      "predicted": "度量类/计量数值，第2级/内部",
+      "correct": true
+    },
+    {
+      "expected": "属性类/描述文本，第2级/内部",
+      "predicted": "属性类/描述文本，第2级/内部",
+      "correct": true
+    }
+  ]
+}

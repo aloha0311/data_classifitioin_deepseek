@@ -55,10 +55,10 @@ def load_model(use_lora=False):
 
 def load_test_data():
     """加载测试数据"""
-    test_file = os.path.join(BASE_DIR, "data/sft/test.jsonl")
-    val_file = os.path.join(BASE_DIR, "data/validation/balanced_val.jsonl")
+   
+
+    filepath = os.path.join(BASE_DIR, "data/sft/val.jsonl")
     
-    filepath = test_file if os.path.exists(test_file) else val_file
     print(f"\n加载测试数据: {filepath}")
     
     samples = []
@@ -94,37 +94,107 @@ def load_test_data():
 
 
 def extract_label(response):
-    """从模型输出中提取标签"""
+    """从模型输出中提取标签，支持格式化输出和自然语言输出"""
     response = response.strip()
     
-    answer_markers = ["答案：", "Assistant:", "答案是", "答案:"]
-    content_after_answer = response
-    for marker in answer_markers:
-        if marker in response:
-            content_after_answer = response.split(marker)[-1]
-            break
+    if not response:
+        return "未识别"
     
-    all_labels = [
-        "ID类/主键ID", "结构类/分类代码", "结构类/产品代码", "结构类/企业代码", "结构类/标准代码",
-        "属性类/名称标题", "属性类/类别标签", "属性类/描述文本", "属性类/技能标签", "属性类/地址位置",
-        "度量类/计量数值", "度量类/计数统计", "度量类/比率比例", "度量类/时间度量", "度量类/序号排序",
-        "身份类/人口统计", "身份类/联系方式", "身份类/教育背景", "身份类/职业信息",
-        "状态类/二元标志", "状态类/状态枚举", "状态类/时间标记",
-        "扩展类/扩展代码", "扩展类/其他字段"
+    # 分类层级映射
+    category_map = {
+        "ID类": ["主键ID", "ID"],
+        "属性类": ["名称标题", "地址位置", "描述文本", "类别标签", "技能标签"],
+        "度量类": ["计量数值", "计数统计", "时间度量", "比率比例", "序号排序"],
+        "状态类": ["时间标记", "状态枚举", "二元标志"],
+        "身份类": ["人口统计", "联系方式", "教育背景", "职业信息"],
+        "结构类": ["产品代码", "分类代码", "企业代码", "标准代码"],
+        "扩展类": ["扩展代码", "其他字段"],
+    }
+    
+    grading_keywords = {
+        "第1级/公开": ["第1级", "公开", "public"],
+        "第2级/内部": ["第2级", "内部", "internal"],
+        "第3级/敏感": ["第3级", "敏感", "private"],
+        "第4级/机密": ["第4级", "机密", "confidential"],
+    }
+    
+    # 完整的分类分级组合标签
+    combined_labels = [
+        "ID类/主键ID，第1级/公开", "ID类/主键ID，第2级/内部", "ID类/主键ID，第3级/敏感", "ID类/主键ID，第4级/机密",
+        "结构类/分类代码，第1级/公开", "结构类/分类代码，第2级/内部", "结构类/分类代码，第3级/敏感", "结构类/分类代码，第4级/机密",
+        "结构类/产品代码，第1级/公开", "结构类/产品代码，第2级/内部", "结构类/产品代码，第3级/敏感", "结构类/产品代码，第4级/机密",
+        "结构类/企业代码，第1级/公开", "结构类/企业代码，第2级/内部", "结构类/企业代码，第3级/敏感", "结构类/企业代码，第4级/机密",
+        "结构类/标准代码，第1级/公开", "结构类/标准代码，第2级/内部", "结构类/标准代码，第3级/敏感", "结构类/标准代码，第4级/机密",
+        "属性类/名称标题，第1级/公开", "属性类/名称标题，第2级/内部", "属性类/名称标题，第3级/敏感", "属性类/名称标题，第4级/机密",
+        "属性类/类别标签，第1级/公开", "属性类/类别标签，第2级/内部", "属性类/类别标签，第3级/敏感", "属性类/类别标签，第4级/机密",
+        "属性类/描述文本，第1级/公开", "属性类/描述文本，第2级/内部", "属性类/描述文本，第3级/敏感", "属性类/描述文本，第4级/机密",
+        "属性类/技能标签，第1级/公开", "属性类/技能标签，第2级/内部", "属性类/技能标签，第3级/敏感", "属性类/技能标签，第4级/机密",
+        "属性类/地址位置，第1级/公开", "属性类/地址位置，第2级/内部", "属性类/地址位置，第3级/敏感", "属性类/地址位置，第4级/机密",
+        "度量类/计量数值，第1级/公开", "度量类/计量数值，第2级/内部", "度量类/计量数值，第3级/敏感", "度量类/计量数值，第4级/机密",
+        "度量类/计数统计，第1级/公开", "度量类/计数统计，第2级/内部", "度量类/计数统计，第3级/敏感", "度量类/计数统计，第4级/机密",
+        "度量类/比率比例，第1级/公开", "度量类/比率比例，第2级/内部", "度量类/比率比例，第3级/敏感", "度量类/比率比例，第4级/机密",
+        "度量类/时间度量，第1级/公开", "度量类/时间度量，第2级/内部", "度量类/时间度量，第3级/敏感", "度量类/时间度量，第4级/机密",
+        "度量类/序号排序，第1级/公开", "度量类/序号排序，第2级/内部", "度量类/序号排序，第3级/敏感", "度量类/序号排序，第4级/机密",
+        "身份类/人口统计，第1级/公开", "身份类/人口统计，第2级/内部", "身份类/人口统计，第3级/敏感", "身份类/人口统计，第4级/机密",
+        "身份类/联系方式，第1级/公开", "身份类/联系方式，第2级/内部", "身份类/联系方式，第3级/敏感", "身份类/联系方式，第4级/机密",
+        "身份类/教育背景，第1级/公开", "身份类/教育背景，第2级/内部", "身份类/教育背景，第3级/敏感", "身份类/教育背景，第4级/机密",
+        "身份类/职业信息，第1级/公开", "身份类/职业信息，第2级/内部", "身份类/职业信息，第3级/敏感", "身份类/职业信息，第4级/机密",
+        "状态类/二元标志，第1级/公开", "状态类/二元标志，第2级/内部", "状态类/二元标志，第3级/敏感", "状态类/二元标志，第4级/机密",
+        "状态类/状态枚举，第1级/公开", "状态类/状态枚举，第2级/内部", "状态类/状态枚举，第3级/敏感", "状态类/状态枚举，第4级/机密",
+        "状态类/时间标记，第1级/公开", "状态类/时间标记，第2级/内部", "状态类/时间标记，第3级/敏感", "状态类/时间标记，第4级/机密",
+        "扩展类/扩展代码，第1级/公开", "扩展类/扩展代码，第2级/内部", "扩展类/扩展代码，第3级/敏感", "扩展类/扩展代码，第4级/机密",
+        "扩展类/其他字段，第1级/公开", "扩展类/其他字段，第2级/内部", "扩展类/其他字段，第3级/敏感", "扩展类/其他字段，第4级/机密",
     ]
     
-    for label in all_labels:
-        if label in content_after_answer:
-            idx = content_after_answer.find(label)
-            before = content_after_answer[:idx].strip()
-            if not before or before[-1] in ['\n', '：', ':', ' ']:
-                return label
+    # 1. 优先匹配完整的"分类，分级"组合
+    for label in combined_labels:
+        if label in response:
+            return label
     
-    first_line = content_after_answer.split('\n')[0].strip()
-    return first_line if first_line else "未识别"
+    # 2. 从自然语言中提取分类（在原始 response 中搜索）
+    found_category = None
+    found_subtype = None
+    found_cat_idx = -1
+    category_priority = ["ID类", "属性类", "度量类", "状态类", "身份类", "结构类", "扩展类"]
+    
+    # 遍历所有分类，找最后一个（因为最终答案通常在后面）
+    for cat in category_priority:
+        idx = response.rfind(cat)  # 使用 rfind 找最后一个出现
+        if idx != -1 and idx > found_cat_idx:
+            found_category = cat
+            found_cat_idx = idx
+            # 在分类后面300个字符内找子类
+            rest = response[idx:idx + 300]
+            for subtype in category_map[cat]:
+                if subtype in rest:
+                    found_subtype = subtype
+                    break
+    
+    # 3. 在原始 response 中提取分级（找最后一个）
+    found_grading = None
+    for grade, keywords in grading_keywords.items():
+        for kw in keywords:
+            if kw in response:
+                found_grading = grade  # 保留最后一个匹配
+    
+    
+    # 4. 组合结果
+    if found_category and found_subtype:
+        classification = f"{found_category}/{found_subtype}"
+        if found_grading:
+            return f"{classification}，{found_grading}"
+        else:
+            return f"{classification}，第1级/公开"  # 默认第1级
+    
+    # 5. 如果只找到分类
+    if found_category:
+        return f"{found_category}，第1级/公开"
+    
+    # 6. 如果什么都没找到
+    return "未识别"
 
 
-def predict(model, tokenizer, sample, max_new_tokens=20):
+def predict(model, tokenizer, sample, max_new_tokens=50, debug=False):
     """单条预测"""
     instruction = sample.get("instruction", "")
     messages = [{"role": "user", "content": instruction}]
@@ -139,13 +209,20 @@ def predict(model, tokenizer, sample, max_new_tokens=20):
             do_sample=False,
             pad_token_id=tokenizer.pad_token_id, 
             eos_token_id=tokenizer.eos_token_id,
+            repetition_penalty=1.2,
         )
     
     response = tokenizer.decode(outputs[0][input_len:], skip_special_tokens=True)
-    return extract_label(response)
+    extracted = extract_label(response)
+    
+    if debug:
+        print(f"  [DEBUG] 原始输出: {repr(response[:200])}")
+        print(f"  [DEBUG] 提取结果: {extracted}")
+    
+    return extracted
 
 
-def evaluate_model(model, tokenizer, samples, model_name):
+def evaluate_model(model, tokenizer, samples, model_name, debug_mode=False):
     """评估模型性能"""
     print(f"\n{'=' * 60}")
     print(f"评估 {model_name}...")
@@ -159,7 +236,9 @@ def evaluate_model(model, tokenizer, samples, model_name):
     for i, sample in enumerate(samples):
         expected = sample.get("output", "")
         try:
-            predicted = predict(model, tokenizer, sample)
+            # 基础模型前5个样本启用调试
+            is_debug = debug_mode and i < 5
+            predicted = predict(model, tokenizer, sample, debug=is_debug)
             y_true.append(expected)
             y_pred.append(predicted)
             results.append({
@@ -326,9 +405,22 @@ def generate_comparison_report(base_metrics, finetuned_metrics, base_results, fi
     print(f"{'总耗时(秒)':<20} {base_metrics['elapsed_time']:>15.2f} {finetuned_metrics['elapsed_time']:>15.2f}")
     print(f"{'单样本耗时(秒)':<20} {base_metrics['time_per_sample']:>15.3f} {finetuned_metrics['time_per_sample']:>15.3f}")
     
+    # 按标签统计
+    all_labels = sorted(set([r["expected"] for r in base_results]))
+    category_stats = {}
+    for label in all_labels:
+        base_correct = sum(1 for r in base_results if r["expected"] == label and r["correct"])
+        ft_correct = sum(1 for r in finetuned_results if r["expected"] == label and r["correct"])
+        total = sum(1 for r in base_results if r["expected"] == label)
+        category_stats[label] = {
+            "base": {"correct": base_correct, "total": total},
+            "finetuned": {"correct": ft_correct, "total": total}
+        }
+    
     # 保存报告
+    import datetime
     report = {
-        "evaluation_date": "2026-03-25",
+        "evaluation_date": datetime.datetime.now().isoformat(),
         "test_samples": len(base_results),
         "base_model_metrics": base_metrics,
         "finetuned_model_metrics": finetuned_metrics,
@@ -337,10 +429,13 @@ def generate_comparison_report(base_metrics, finetuned_metrics, base_results, fi
             "base": base_industry,
             "finetuned": ft_industry
         },
+        "category_stats": category_stats,
         "error_analysis": {
             "base": base_errors,
             "finetuned": ft_errors
-        }
+        },
+        "base_results": base_results,
+        "finetuned_results": finetuned_results
     }
     
     os.makedirs(RESULTS_DIR, exist_ok=True)
@@ -361,9 +456,9 @@ def main():
     # 加载测试数据
     samples = load_test_data()
     
-    # 评估基础模型
+    # 评估基础模型（启用调试）
     base_model, base_tokenizer = load_model(use_lora=False)
-    base_metrics, base_results = evaluate_model(base_model, base_tokenizer, samples, "DeepSeek-7B-Base")
+    base_metrics, base_results = evaluate_model(base_model, base_tokenizer, samples, "DeepSeek-7B-Base", debug_mode=True)
     
     # 清理GPU内存
     del base_model
@@ -371,7 +466,7 @@ def main():
     
     # 评估微调模型
     finetuned_model, finetuned_tokenizer = load_model(use_lora=True)
-    finetuned_metrics, finetuned_results = evaluate_model(finetuned_model, finetuned_tokenizer, samples, "DeepSeek-7B-LoRA")
+    finetuned_metrics, finetuned_results = evaluate_model(finetuned_model, finetuned_tokenizer, samples, "DeepSeek-7B-LoRA", debug_mode=False)
     
     # 生成对比报告
     report = generate_comparison_report(base_metrics, finetuned_metrics, base_results, finetuned_results)

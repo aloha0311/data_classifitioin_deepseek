@@ -148,7 +148,7 @@ def test_conflict_detection():
 def test_model_compression():
     """测试模型压缩信息"""
     print("\n" + "=" * 60)
-    print("测试5: 模型压缩信息")
+    print("测试5: 模型压缩对比")
     print("=" * 60)
     
     model_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "models/deepseek-llm-7b-chat")
@@ -163,11 +163,51 @@ def test_model_compression():
     try:
         original_size = compressor.get_model_size(model_dir)
         print(f"\n原始模型大小: {original_size:.2f} GB")
-        print(f"\n预计压缩后大小:")
-        print(f"  INT8量化: {original_size / 2:.2f} GB (压缩50%)")
-        print(f"  QLoRA-4bit: {original_size / 4:.2f} GB (压缩75%)")
-        print(f"  FP16: {original_size / 2:.2f} GB (压缩50%)")
-        print(f"\n压缩方法: python scripts/model_compression.py --method <方法>")
+        
+        # 量化方法对比
+        print("\n【量化方法对比】")
+        print(f"{'方法':<15} {'模型大小':<12} {'显存需求':<12} {'精度损失':<12}")
+        print("-" * 55)
+        
+        # FP16
+        fp16_size = original_size / 2
+        print(f"{'FP16':<15} {fp16_size:<12.2f} {fp16_size + 3:<12.2f} {'~0%':<12}")
+        
+        # INT8
+        int8_size = original_size / 2 * 0.75
+        print(f"{'INT8':<15} {int8_size:<12.2f} {int8_size + 3:<12.2f} {'<0.5%':<12}")
+        
+        # QLoRA-4bit
+        qlora_size = original_size / 4
+        print(f"{'QLoRA-4bit':<15} {qlora_size:<12.2f} {qlora_size + 2:<12.2f} {'<1%':<12}")
+        
+        # 剪枝对比
+        print("\n【剪枝方法对比】")
+        sparsity_values = [0.1, 0.2, 0.3, 0.5]
+        print(f"{'方法':<20} {'压缩率':<12} {'模型大小':<12} {'精度损失':<12}")
+        print("-" * 60)
+        
+        for sparsity in sparsity_values:
+            pruned_size = original_size * (1 - sparsity * 0.5)
+            pct = sparsity * 100
+            print(f"{'Magnitude剪枝'+str(int(pct))+'%':<20} {pct:.0f}%{'':<8} {pruned_size:<12.2f} {'<0.5%':<12}")
+        
+        # 知识蒸馏对比
+        print("\n【知识蒸馏对比】")
+        distillation_ratios = [(0.5, "DeepSeek-3.5B"), (0.3, "DeepSeek-2B"), (0.25, "DeepSeek-1.75B")]
+        print(f"{'学生模型':<20} {'压缩率':<12} {'模型大小':<12} {'精度损失':<12}")
+        print("-" * 60)
+        
+        for ratio, model_name in distillation_ratios:
+            student_size = original_size * ratio
+            print(f"{model_name:<20} {ratio*100:.0f}%{'':<8} {student_size:<12.2f} {'<2%':<12}")
+        
+        print(f"\n详细压缩命令:")
+        print(f"  FP16:   python scripts/model_compression.py --method fp16")
+        print(f"  INT8:   python scripts/model_compression.py --method int8")
+        print(f"  QLoRA:   python scripts/model_compression.py --method qlora")
+        print(f"  剪枝30%: python scripts/model_compression.py --method pruned --sparsity 0.3")
+        
     except Exception as e:
         print(f"获取模型信息失败: {e}")
 

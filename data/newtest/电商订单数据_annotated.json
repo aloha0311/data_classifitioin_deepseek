@@ -1,0 +1,24 @@
+{
+  "filename": "电商订单数据_15字段_30行.csv",
+  "industry": "商业",
+  "total_fields": 16,
+  "annotations": [
+    {"field": "order_id", "classification": "ID类/主键ID", "grading": "第1级/公开", "samples": ["ORD0000000001", "ORD0000000002"], "meaning": "订单唯一标识ID"},
+    {"field": "customer_id", "classification": "结构类/企业代码", "grading": "第1级/公开", "samples": ["C000022", "C000463"], "meaning": "客户ID"},
+    {"field": "customer_name", "classification": "属性类/名称标题", "grading": "第3级/敏感", "samples": ["客户1", "客户2", "客户3"], "meaning": "客户姓名"},
+    {"field": "customer_phone", "classification": "身份类/联系方式", "grading": "第4级/机密", "samples": ["1594397473", "1518452352"], "meaning": "客户电话"},
+    {"field": "product_id", "classification": "结构类/产品代码", "grading": "第1级/公开", "samples": ["P06266", "P04888", "P04918"], "meaning": "商品ID"},
+    {"field": "product_name", "classification": "属性类/名称标题", "grading": "第1级/公开", "samples": ["商品1", "商品2", "商品3"], "meaning": "商品名称"},
+    {"field": "category", "classification": "属性类/类别标签", "grading": "第1级/公开", "samples": ["食品", "电子产品", "美妆", "服装", "图书", "家居"], "meaning": "商品类目"},
+    {"field": "quantity", "classification": "度量类/计数统计", "grading": "第1级/公开", "samples": ["4", "3", "10", "7"], "meaning": "购买数量"},
+    {"field": "unit_price", "classification": "度量类/计量数值", "grading": "第1级/公开", "samples": ["329.61", "976.14", "341.76"], "meaning": "单价"},
+    {"field": "total_amount", "classification": "度量类/计量数值", "grading": "第2级/内部", "samples": ["", ""], "meaning": "订单总金额"},
+    {"field": "order_status", "classification": "状态类/状态枚举", "grading": "第1级/公开", "samples": ["已发货", "已支付", "已取消", "已完成", "待支付", "退款中"], "meaning": "订单状态"},
+    {"field": "payment_method", "classification": "属性类/类别标签", "grading": "第1级/公开", "samples": ["支付宝", "银行卡", "微信支付", "货到付款"], "meaning": "支付方式"},
+    {"field": "shipping_address", "classification": "属性类/地址位置", "grading": "第3级/敏感", "samples": ["收货地址1", "收货地址2"], "meaning": "收货地址"},
+    {"field": "order_time", "classification": "状态类/时间标记", "grading": "第1级/公开", "samples": ["2025-11-02 10:54:58", "2026-01-02 21:54:58"], "meaning": "下单时间"},
+    {"field": "shipping_time", "classification": "状态类/时间标记", "grading": "第1级/公开", "samples": ["2025-12-31 14:54:58", ""], "meaning": "发货时间"},
+    {"field": "coupon_discount", "classification": "度量类/计量数值", "grading": "第1级/公开", "samples": ["42.27", "10.75", "0"], "meaning": "优惠券折扣金额"},
+    {"field": "points_earned", "classification": "度量类/计数统计", "grading": "第1级/公开", "samples": ["216", "230", "334"], "meaning": "获得积分"}
+  ]
+}

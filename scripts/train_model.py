@@ -30,22 +30,38 @@ print("DeepSeek 模型微调脚本")
 print("=" * 60)
 
 def preprocess_function(examples, tokenizer, max_length=512):
-    """预处理训练数据 - 使用 chat template"""
+    """预处理训练数据 - 只训练输出部分
+    
+    格式: [SYS_PROMPT] + instruction + answer
+    labels: -100 for prompt, actual tokens for answer
+    """
     texts = []
+    prompt_end_positions = []  # 记录每个样本中 prompt 结束的位置（token 级别）
+    
     for i in range(len(examples["instruction"])):
         instruction = examples["instruction"][i]
         input_text = examples["input"][i] if examples["input"] else ""
-        output = examples["output"][i]
+        output = examples["output"][i].strip()
         
-        # 构建对话格式
+        # 构建 prompt（使用 chat template，带 generation prompt）
         if input_text:
             prompt = instruction + input_text
         else:
             prompt = instruction
         
-        messages = [{"role": "user", "content": prompt}, {"role": "assistant", "content": output}]
-        text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)
-        texts.append(text)
+        messages = [{"role": "user", "content": prompt}]
+        prompt_text = tokenizer.apply_chat_template(
+            messages, 
+            tokenize=False, 
+            add_generation_prompt=True  # 会自动加上 "Assistant:" 等
+        )
+        
+        # 完整文本 = prompt + assistant 回复
+        full_text = prompt_text + output
+        texts.append(full_text)
+        
+        # 记录 prompt 部分的长度（字符级别），用于后续计算 token 位置
+        prompt_end_positions.append(len(prompt_text))
     
     # Tokenize
     model_inputs = tokenizer(
@@ -56,9 +72,27 @@ def preprocess_function(examples, tokenizer, max_length=512):
         return_tensors=None,
     )
     
-    # 设置 labels（用于计算损失）
-    model_inputs["labels"] = model_inputs["input_ids"].copy()
+    # 构建 labels
+    labels = []
+    for idx, input_ids in enumerate(model_inputs["input_ids"]):
+        label = [-100] * len(input_ids)  # 默认全部 mask
+        
+        # 找到 prompt 结束位置（需要用 tokenize 来确定）
+        prompt_text = texts[idx]
+        prompt_end_char = prompt_end_positions[idx]
+        
+        # 计算 prompt 对应的 token 数量
+        prompt_tokens = tokenizer.encode(prompt_text[:prompt_end_char], add_special_tokens=False)
+        prompt_len = len(prompt_tokens)
+        
+        # labels 只在 output 部分有值
+        for j in range(prompt_len, len(input_ids)):
+            if input_ids[j] != tokenizer.pad_token_id:
+                label[j] = input_ids[j]
+        
+        labels.append(label)
     
+    model_inputs["labels"] = labels
     return model_inputs
 
 def load_and_prepare_dataset(train_file, val_file, tokenizer):
@@ -182,14 +216,15 @@ def main():
         output_dir=OUTPUT_DIR,
         per_device_train_batch_size=1,
         gradient_accumulation_steps=4,
-        num_train_epochs=10,      # 恢复原始轮数
-        learning_rate=2e-4,
-        warmup_steps=10,
-        logging_steps=5,
+        num_train_epochs=20,        # 增加训练轮数，让模型充分学习
+        learning_rate=1e-4,        # 降低学习率，更稳定的学习
+        warmup_steps=20,            # 增加预热步数
+        logging_steps=10,
         save_steps=50,
-        save_total_limit=3,
+        save_total_limit=5,
         fp16=torch.cuda.is_available(),
         optim="adamw_torch",
+        weight_decay=0.01,          # 添加权重衰减，防止过拟合
         report_to="none",
         remove_unused_columns=False,
         eval_strategy="no",
